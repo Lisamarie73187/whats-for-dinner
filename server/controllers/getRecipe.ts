@@ -5,9 +5,13 @@ dotenv.config();
 
 const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
 
-export const getRandomRecipe = async (req: Request, res: Response) => {
+export const getRecipe = async (req: Request, res: Response) => {
     
-  let url= `https://api.spoonacular.com/recipes/random?apiKey=${SPOONACULAR_API_KEY}&include-tags=dinner`;
+  let baseUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${SPOONACULAR_API_KEY}&number=1&sort=random&type="main course"`;
+
+  const queryParams = new URLSearchParams(req.query as Record<string, string>).toString();
+
+  const url = `${baseUrl}&${queryParams}`; 
 
   try {
     const response = await axios.get(url);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { fetchRandomRecipe } from '../api/fetchRandomRecipe';
+import ButtonOptions from './ButtonOptions';
 
 interface Recipe {
   id: number;
@@ -19,7 +20,8 @@ const RandomRecipeGenerator: React.FC = () => {
 
     try {
       const response = await fetchRandomRecipe();
-      setRecipe(response.results[0]);
+
+      setRecipe(response.recipes[0]);
     } catch (error) {
       console.error('Error fetching recipe:', error);
       setError('Error fetching random recipe');
@@ -30,10 +32,14 @@ const RandomRecipeGenerator: React.FC = () => {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>WTF Should I Make for Dinner?</h1>
-      <div>
+      <h1 style={styles.heading}>WTF Should I Make <br/>for Dinner?</h1>
+      {!recipe && (
+        <div>
         <button style={styles.button} onClick={getRandomRecipe}>Get Random Recipe</button>
       </div>
+      )
+      }
+      
       {loading && <p style={styles.loading}>Loading...</p>}
       {error && <p style={styles.error}>{error}</p>}
 
@@ -43,6 +49,9 @@ const RandomRecipeGenerator: React.FC = () => {
           <img src={recipe.image} alt={recipe.title} style={styles.recipeImage} />
         </div>
       )}
+      {recipe && (
+          <ButtonOptions />
+      )}
     </div>
   );
 };
@@ -51,12 +60,14 @@ const styles = {
   container: {
     textAlign: 'center' as const,
     padding: '20px',
-    fontFamily: 'Arial, sans-serif',
   },
   heading: {
-    fontSize: '2.5rem',
+    fontSize: '5rem',
     color: '#333',
     marginBottom: '20px',
+    // fontFamily: "Open Sans",
+    fontWeight: "Regular",
+    fontStyle: "normal",
   },
   button: {
     backgroundColor: '#ff5722',
