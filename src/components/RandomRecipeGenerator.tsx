@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { fetchRandomRecipe } from '../api/fetchRandomRecipe';
 import ButtonOptions from './ButtonOptions';
+import LoadingComponent from './LoadingCompontent';
+import HowAboutPrompt from './HowAboutPrompt';
+import { fetchSpecificRandomRecipe } from '../api/fetchSpecificRecipe';
 
 interface Recipe {
   id: number;
@@ -20,7 +23,6 @@ const RandomRecipeGenerator: React.FC = () => {
 
     try {
       const response = await fetchRandomRecipe();
-
       setRecipe(response.recipes[0]);
     } catch (error) {
       console.error('Error fetching recipe:', error);
@@ -30,28 +32,47 @@ const RandomRecipeGenerator: React.FC = () => {
     }
   };
 
+  const getRecipe = async (params: any) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetchSpecificRandomRecipe(params);
+      console.log({response})
+      setRecipe(response);
+    } catch (error) {
+      console.error('Error fetching recipe:', error);
+      setError('Error fetching recipe');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>WTF Should I Make <br/>for Dinner?</h1>
-      {!recipe && (
-        <div>
-        <button style={styles.button} onClick={getRandomRecipe}>Get Random Recipe</button>
-      </div>
-      )
-      }
-      
-      {loading && <p style={styles.loading}>Loading...</p>}
+      {loading && <LoadingComponent/>}
       {error && <p style={styles.error}>{error}</p>}
-
-      {recipe && (
-        <div style={styles.recipeContainer}>
-          <div style={styles.recipeTitle}>{recipe.title}</div>
-          <img src={recipe.image} alt={recipe.title} style={styles.recipeImage} />
+      {!recipe && !loading && (
+          <div>
+            <h1 style={styles.heading}>WTF Should I Make <br/>for Dinner?</h1>
+            <button style={styles.button} onClick={getRandomRecipe}>Get Random Recipe</button>
+          </div>
+        )
+      }
+      {recipe && !loading ? (
+        <div>
+           <HowAboutPrompt/>
+          <div style={styles.recipeContainer}>
+            <div style={styles.recipeTitle}>{recipe.title}</div>
+            <img src={recipe.image} alt={recipe.title} style={styles.recipeImage} />
+          </div>
         </div>
+      ) : (
+        <div style={styles.recipeContainerLoading}>
+            <div style={styles.recipeImageLoading}/>
+          </div>
       )}
-      {recipe && (
-          <ButtonOptions />
-      )}
+      {recipe && !loading &&  <ButtonOptions getRandomRecipe={getRandomRecipe} getSpecificRecipe={getRecipe} recipe={recipe}/>}
     </div>
   );
 };
@@ -62,10 +83,10 @@ const styles = {
     padding: '20px',
   },
   heading: {
-    fontSize: '5rem',
+    fontSize: '8rem',
     color: '#333',
     marginBottom: '20px',
-    // fontFamily: "Open Sans",
+    fontFamily: "Irish Grover",
     fontWeight: "Regular",
     fontStyle: "normal",
   },
@@ -79,33 +100,35 @@ const styles = {
     borderRadius: '5px',
     transition: 'background-color 0.3s ease',
   },
-  loading: {
-    fontSize: '1.2rem',
-    color: '#555',
-    marginTop: '20px',
-  },
   error: {
     fontSize: '1.2rem',
     color: 'red',
     marginTop: '20px',
   },
   recipeContainer: {
-    marginTop: '30px',
+    height: '400px',
+    marginTop: '10px',
     padding: '20px',
     display: 'flex',
     flexDirection: 'column' as const,
     alignItems: 'center',
     textAlign: 'center' as const,
   },
+  recipeContainerLoading: {
+    height: '400px',
+  },
+  recipeImageLoading: {
+    height: '400px',
+  },
   recipeTitle: {
     fontSize: '1.8rem',
     color: '#333',
-    marginBottom: '10px',
+    marginBottom: '20px',
   },
   recipeImage: {
     width: '500px',
     borderRadius: '10px',
-    marginBottom: '10px',
+    marginBottom: '30px',
   },
 };
 

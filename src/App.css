@@ -1,8 +1,6 @@
 .App {
   text-align: center;
-  /* background-image: url('../assets//wtffd2.jpg');  */
-  /* background-size: cover; */
-  /* background-position: center; */
+  margin-top: 50px;
   height: 100vh;
   width: 100vw;
 }
