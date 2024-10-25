@@ -13,14 +13,15 @@ interface RecipeQueryParams {
   maxFat?: number;
 }
 
-export const fetchSpecificRandomRecipe = async (params?: RecipeQueryParams) => {
+export const fetchRecipe = async (params?: RecipeQueryParams) => {
   const url = `http://localhost:3003/api/get-recipe`;
 
   try {
     const response = await axios.get(url, {
         params,
     });
-    return response.data.data;
+    console.log('response', response);
+    return response.data.recipe;
   } catch (error) {
     console.error('Error fetching random recipe:', error);
     throw error;

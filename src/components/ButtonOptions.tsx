@@ -3,8 +3,7 @@ import useRandomPrompt from '../hooks/useRandomPrompt';
 import useRandomButtonPrompts from '../hooks/useRandomButtonPrompts';
 
 interface ButtonOptionsProps {
-    getRandomRecipe: () => void;
-    getSpecificRecipe: (buttonPrompt: any) => void;
+    getRecipe: (buttonPrompt?: any) => void;
     recipe: any;
 }
 
@@ -37,15 +36,15 @@ const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
     );
 };
 
-const ButtonOptions: React.FC<ButtonOptionsProps> = ({ getRandomRecipe, getSpecificRecipe, recipe }) => {
+const ButtonOptions: React.FC<ButtonOptionsProps> = ({  getRecipe, recipe }) => {
     const randomLoadingPrompt = useRandomPrompt(hateItButtonPrompts);
-    const randomButtonPrompt = useRandomButtonPrompts(recipe)
+    // const randomButtonPrompt = useRandomButtonPrompts(recipe)
     return (
         <div style={styles.buttonContainer}>
-            <Button text={randomLoadingPrompt} onClick={getRandomRecipe} />
-            {randomButtonPrompt.map((buttonPrompt, index) => (
-                <Button key={index} text={buttonPrompt.prompt} onClick={() => getSpecificRecipe(buttonPrompt.params)} />
-            ))}
+            <Button text={randomLoadingPrompt} onClick={getRecipe} />
+            {/* {randomButtonPrompt.map((buttonPrompt, index) => (
+                <Button key={index} text={buttonPrompt.prompt} onClick={() => getRecipe(buttonPrompt.params)} />
+            ))} */}
         </div>
     );
 };

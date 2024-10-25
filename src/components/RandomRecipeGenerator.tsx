@@ -3,42 +3,41 @@ import { fetchRandomRecipe } from '../api/fetchRandomRecipe';
 import ButtonOptions from './ButtonOptions';
 import LoadingComponent from './LoadingCompontent';
 import HowAboutPrompt from './HowAboutPrompt';
-import { fetchSpecificRandomRecipe } from '../api/fetchSpecificRecipe';
+import { fetchRecipe } from '../api/fetchRecipe';
 
 interface Recipe {
   id: number;
-  title: string;
+  label: string;
   image: string;
-  instructions: string;
-}
+  }
 
 const RandomRecipeGenerator: React.FC = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getRandomRecipe = async () => {
-    setLoading(true);
-    setError(null);
+  // const getRandomRecipe = async () => {
+  //   setLoading(true);
+  //   setError(null);
 
-    try {
-      const response = await fetchRandomRecipe();
-      setRecipe(response.recipes[0]);
-    } catch (error) {
-      console.error('Error fetching recipe:', error);
-      setError('Error fetching random recipe');
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   try {
+  //     const response = await fetchRandomRecipe();
+  //     setRecipe(response.recipes[0]);
+  //   } catch (error) {
+  //     console.error('Error fetching recipe:', error);
+  //     setError('Error fetching random recipe');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const getRecipe = async (params: any) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetchSpecificRandomRecipe(params);
-      console.log({response})
+      const response = await fetchRecipe(params);
+      console.log('response', response);
       setRecipe(response);
     } catch (error) {
       console.error('Error fetching recipe:', error);
@@ -55,7 +54,7 @@ const RandomRecipeGenerator: React.FC = () => {
       {!recipe && !loading && (
           <div>
             <h1 style={styles.heading}>WTF Should I Make <br/>for Dinner?</h1>
-            <button style={styles.button} onClick={getRandomRecipe}>Get Random Recipe</button>
+            <button style={styles.button} onClick={getRecipe}>Get Random Recipe</button>
           </div>
         )
       }
@@ -63,8 +62,8 @@ const RandomRecipeGenerator: React.FC = () => {
         <div>
            <HowAboutPrompt/>
           <div style={styles.recipeContainer}>
-            <div style={styles.recipeTitle}>{recipe.title}</div>
-            <img src={recipe.image} alt={recipe.title} style={styles.recipeImage} />
+            <div style={styles.recipeTitle}>{recipe.label}</div>
+            <img src={recipe.image} alt={recipe.label} style={styles.recipeImage} />
           </div>
         </div>
       ) : (
@@ -72,7 +71,7 @@ const RandomRecipeGenerator: React.FC = () => {
             <div style={styles.recipeImageLoading}/>
           </div>
       )}
-      {recipe && !loading &&  <ButtonOptions getRandomRecipe={getRandomRecipe} getSpecificRecipe={getRecipe} recipe={recipe}/>}
+      {recipe && !loading &&  <ButtonOptions getRecipe={getRecipe} recipe={recipe}/>}
     </div>
   );
 };
@@ -126,7 +125,7 @@ const styles = {
     marginBottom: '20px',
   },
   recipeImage: {
-    width: '500px',
+    width: '400px',
     borderRadius: '10px',
     marginBottom: '30px',
   },

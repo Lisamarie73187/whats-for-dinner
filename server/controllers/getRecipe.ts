@@ -10,19 +10,16 @@ export const getRecipe = async (req: Request, res: Response) => {
   let baseUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${SPOONACULAR_API_KEY}&number=1&sort=random&type="main course"`;
 
   const queryParams = new URLSearchParams(req.query as Record<string, string>).toString();
-  console.log({queryParams})
 
   const url = `${baseUrl}&${queryParams}`; 
   try {
     // const response = await axios.get(url);
     const recipe = response.data.results[0];
-    console.log({recipe})
 
     if (!recipe) {
       return res.status(404).json({ message: 'No recipe found' });
     }
 
-    console.log({recipe: recipe.id})
     const recipeId = recipe.id; 
 
     const detailsUrl = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${SPOONACULAR_API_KEY}`;
@@ -38,6 +35,7 @@ export const getRecipe = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Failed to fetch random recipe or recipe details' });
   }
 };
+
 
 const response = { data: {
   results: [
