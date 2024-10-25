@@ -14,6 +14,7 @@ interface Recipe {
 
 const RandomRecipeGenerator: React.FC = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [queries, setQueries] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const getRecipeButtonPrompt = useRandomGetRecipeButtonPrompts();
@@ -39,7 +40,8 @@ const RandomRecipeGenerator: React.FC = () => {
 
     try {
       const response = await fetchRecipe(params);
-      setRecipe(response);
+      setRecipe(response.recipe);
+      setQueries(response.queries);
     } catch (error) {
       console.error('Error fetching recipe:', error);
       setError('Error fetching recipe');
@@ -74,7 +76,7 @@ const RandomRecipeGenerator: React.FC = () => {
             <div style={styles.recipeImageLoading}/>
           </div>
       )}
-      {recipe && !loading &&  <ButtonOptions getRecipe={getRecipe} recipe={recipe}/>}
+      {recipe && !loading &&  <ButtonOptions getRecipe={getRecipe} recipe={recipe} queries={queries}/>}
     </div>
   );
 };

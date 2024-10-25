@@ -1,23 +1,43 @@
+import { CuisineType, DietType, MealType } from "../../types/types";
+
 interface Recipe {
+  cuisineType: CuisineType[];
+  dietType: DietType[];
+  mealType: MealType[];
   }
   
-  interface ButtonPrompt {
+interface ButtonPrompt {
     prompt: string;
     params: {
-        excludeCuisine?: string;
-        intolerances?: string;
-        diet?: string;
-        type?: string;
-        maxCalories?: number;
-    };
-
-  }
+      cuisineType?: string;
+      dietType?: string;
+      mealType?: string;
+  };
+}
   
-  const useRandomButtonPrompts = (recipe: Recipe): ButtonPrompt[] => {
+  const useRandomButtonPrompts = (queries: string): ButtonPrompt[] => {
     const buttonPromptArr: ButtonPrompt[] = [];
-  
-    
-    return getRandomStringsArray(buttonPromptArr, 2);
+    const queriesObj = queryStringToObject(queries);
+
+    if(queriesObj.cuisineType) {
+      buttonPromptArr.push({
+        prompt: `gross I hate ${queriesObj.cuisineType}`,
+        params: {
+          cuisineType: queriesObj.cuisineType,
+        },
+      });
+    }
+
+    if(queriesObj.q) {
+      buttonPromptArr.push({
+        prompt: `I don't like ${queriesObj.q}`,
+        params: {
+          mealType: queriesObj.q,
+        },
+      });
+    }
+
+    return getRandomStringsArray(buttonPromptArr, 3);
   };
   
   const getRandomStringsArray = (strings: ButtonPrompt[], numOfStrings: number): ButtonPrompt[] => {
@@ -36,6 +56,18 @@ interface Recipe {
   
     return result;
   };
-  
+
+  export const queryStringToObject = (queryString) => {
+    console.log('queryString:', queryString);
+    return queryString
+        .split('&')                       // Split the string by '&'
+        .reduce((acc, param) => {         // Iterate over each parameter
+            const [key, value] = param.split('='); // Split by '=' to get key and value
+            acc[key] = decodeURIComponent(value);  // Decode and assign to object
+            return acc;
+    }, {});                           // Start with an empty object
+}
+   
+
   export default useRandomButtonPrompts;
   

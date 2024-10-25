@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import {  Request, Response } from 'express';
+import { CuisineType, DietType, MealType } from '../../types/types';
 
 interface Recipe {
   label: string;
@@ -19,10 +20,47 @@ interface EdamamResponse {
 const appId: string = process.env.EDAMAM_API_ID as string;
 const appKey: string = process.env.EDAMAM_API_KEY as string;
 
+let cuisineOptions: any[] = [...Object.values(CuisineType)];
+let mealOptions: any[] = [...Object.values(MealType)];
+
+function getRandomAndRemove(array: string[]): string {
+  if (array.length === 0) return "";
+  
+  const randomIndex = Math.floor(Math.random() * array.length);
+  const value = array[randomIndex];
+  
+  array.splice(randomIndex, 1);
+  return value;
+}
+
+function generateRandomQueryParams(query: { cuisineType?: string, q?: string }): string {
+  console.log({ query });
+
+  if (query.cuisineType) {
+    cuisineOptions = cuisineOptions.filter(cuisine => cuisine !== query.cuisineType);
+  }
+
+  if (query.q) {
+    mealOptions = mealOptions.filter(meal => meal !== query.q);
+  }
+
+  if (cuisineOptions.length === 0) cuisineOptions = [...Object.values(CuisineType)];
+  if (mealOptions.length === 0) mealOptions = [...Object.values(MealType)];
+
+  const randomCuisine = getRandomAndRemove(cuisineOptions);
+  const randomMeal = getRandomAndRemove(mealOptions);
+
+  const queryParams = `cuisineType=${randomCuisine}&q=${randomMeal}`;
+  
+  return queryParams;
+}
+
+
 export const getRecipeEdamam = async (req: Request, res: Response): Promise<void> => {
+  console.log('req.query:', req.query);
   try {
-    const query = 'recipe';
-    const url = `https://api.edamam.com/search?q=${query}&app_id=${appId}&app_key=${appKey}&mealType=dinner&dishType=main course&random=true&from=0&to=100`;
+    const query = generateRandomQueryParams(req.query as { cuisineType: string; q: string });
+    const url = `https://api.edamam.com/search?${query}&app_id=${appId}&app_key=${appKey}&mealType=dinner&dishType=main course&random=true&from=0&to=100`;
 
     // const response: AxiosResponse<EdamamResponse> = await axios.get(url);
 
@@ -37,9 +75,11 @@ export const getRecipeEdamam = async (req: Request, res: Response): Promise<void
 
     // res.json({
     //   recipe: randomRecipe,
+    //   queries: query
     // });
     res.json({
       recipe: recipe,
+      queries: query
     });
   } catch (error) {
     console.error('Error fetching recipes:', error);

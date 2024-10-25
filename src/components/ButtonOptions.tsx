@@ -3,8 +3,9 @@ import useRandomPrompt from '../hooks/useRandomPrompt';
 import useRandomButtonPrompts from '../hooks/useRandomButtonPrompts';
 
 interface ButtonOptionsProps {
-    getRecipe: (buttonPrompt?: any) => void;
+    getRecipe: (queries?: any) => void;
     recipe: any;
+    queries: any;
 }
 
 interface ButtonProps {
@@ -36,12 +37,14 @@ const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
     );
 };
 
-const ButtonOptions: React.FC<ButtonOptionsProps> = ({  getRecipe, recipe }) => {
+const ButtonOptions: React.FC<ButtonOptionsProps> = ({  getRecipe, queries }) => {
     const randomLoadingPrompt = useRandomPrompt(hateItButtonPrompts);
-    const randomButtonPrompt = useRandomButtonPrompts(recipe)
+    const randomButtonPrompt = useRandomButtonPrompts(queries)
+
+
     return (
         <div style={styles.buttonContainer}>
-            <Button text={randomLoadingPrompt} onClick={getRecipe} />
+            <Button text={randomLoadingPrompt} onClick={() => getRecipe()} />
             {randomButtonPrompt.map((buttonPrompt, index) => (
                 <Button key={index} text={buttonPrompt.prompt} onClick={() => getRecipe(buttonPrompt.params)} />
             ))}
@@ -55,18 +58,20 @@ const styles = {
     buttonContainer: {
         display: 'flex',
         justifyContent: 'space-around',
-        margin: '0 18vw',
+        marginTop: '60px',
+
     },
     button: {
         backgroundColor: '#fffbf6',
         color: '#333',
         border: 'none',
-        padding: '10px 20px',
-        fontSize: '20px',
+        padding: '10px 10px',
+        fontSize: '22px',
         cursor: 'pointer',
         borderRadius: '5px',
         transition: 'background-color 0.3s ease',
         fontFamily: "open sans",
         marginTop: '30px',
+        width: '25vw'
     },
 };
