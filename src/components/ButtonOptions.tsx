@@ -59,19 +59,19 @@ const styles = {
         display: 'flex',
         justifyContent: 'space-around',
         marginTop: '60px',
-
+        margin: '0 10vw',
     },
     button: {
         backgroundColor: '#fffbf6',
         color: '#333',
         border: 'none',
         padding: '10px 10px',
-        fontSize: '22px',
+        fontSize: '20px',
         cursor: 'pointer',
         borderRadius: '5px',
         transition: 'background-color 0.3s ease',
         fontFamily: "open sans",
-        marginTop: '30px',
-        width: '25vw'
+        marginTop: '20px',
+        width: '20vw'
     },
 };

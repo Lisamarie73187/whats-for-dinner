@@ -34,7 +34,6 @@ function getRandomAndRemove(array: string[]): string {
 }
 
 function generateRandomQueryParams(query: { cuisineType?: string, q?: string }): string {
-  console.log({ query });
 
   if (query.cuisineType) {
     cuisineOptions = cuisineOptions.filter(cuisine => cuisine !== query.cuisineType);
@@ -46,6 +45,8 @@ function generateRandomQueryParams(query: { cuisineType?: string, q?: string }):
 
   if (cuisineOptions.length === 0) cuisineOptions = [...Object.values(CuisineType)];
   if (mealOptions.length === 0) mealOptions = [...Object.values(MealType)];
+
+  console.log({ cuisineOptions, mealOptions });
 
   const randomCuisine = getRandomAndRemove(cuisineOptions);
   const randomMeal = getRandomAndRemove(mealOptions);

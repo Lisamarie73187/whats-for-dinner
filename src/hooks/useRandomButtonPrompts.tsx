@@ -1,10 +1,3 @@
-import { CuisineType, DietType, MealType } from "../../types/types";
-
-interface Recipe {
-  cuisineType: CuisineType[];
-  dietType: DietType[];
-  mealType: MealType[];
-  }
   
 interface ButtonPrompt {
     prompt: string;
@@ -21,7 +14,7 @@ interface ButtonPrompt {
 
     if(queriesObj.cuisineType) {
       buttonPromptArr.push({
-        prompt: `gross I hate ${queriesObj.cuisineType}`,
+        prompt: createPrompt(queriesObj.cuisineType, cuisinePrompts),
         params: {
           cuisineType: queriesObj.cuisineType,
         },
@@ -30,7 +23,7 @@ interface ButtonPrompt {
 
     if(queriesObj.q) {
       buttonPromptArr.push({
-        prompt: `I don't like ${queriesObj.q}`,
+        prompt: createPrompt(queriesObj.q, promptsForMealType),
         params: {
           mealType: queriesObj.q,
         },
@@ -58,16 +51,39 @@ interface ButtonPrompt {
   };
 
   export const queryStringToObject = (queryString) => {
-    console.log('queryString:', queryString);
     return queryString
-        .split('&')                       // Split the string by '&'
-        .reduce((acc, param) => {         // Iterate over each parameter
-            const [key, value] = param.split('='); // Split by '=' to get key and value
-            acc[key] = decodeURIComponent(value);  // Decode and assign to object
+        .split('&')  
+        .reduce((acc, param) => { 
+            const [key, value] = param.split('=');
+            acc[key] = decodeURIComponent(value);
             return acc;
-    }, {});                           // Start with an empty object
-}
+    }, {});
+  }
    
+const promptsForMealType = [
+  "is like chewing on sadness and disappointment!",
+  "tastes like regret and broken dreams!",
+  "feels like a betrayal to my taste buds!",
+  "is basically a flavor crime!",
+  "is as appealing as a soggy gym sock!",
+  "is what my nightmares taste like!",
+];
+
+const cuisinePrompts = [
+  "is like a culinary vacation in the wrong country!",
+  "tastes like someone tried cooking with Google Translate instructions!",
+  "is what happens when spices get confused!",
+  "might make Nonna cry, and not in a good way.",
+  "is as authentic as fast food with a fancy name.",
+  "is like a dish with all the wrong subtitles!",
+  "could be amazing, but somehow misses the exit to flavor town."
+];
+
+const createPrompt = (inputString, prompts) => {
+  const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+  
+  return `${inputString} ${randomPrompt}`;
+};
 
   export default useRandomButtonPrompts;
   
