@@ -1,16 +1,7 @@
 import axios from 'axios';
 
 interface RecipeQueryParams {
-  cuisine?: string;
-  diet?: string;
-  excludeIngredients?: string;
-  intolerances?: string;
-  includeIngredients?: string;
-  maxReadyTime?: number;
-  maxCarbs?: number;
-  minProtein?: number;
-  maxCalories?: number;
-  maxFat?: number;
+
 }
 
 export const fetchRecipe = async (params?: RecipeQueryParams) => {
@@ -20,7 +11,6 @@ export const fetchRecipe = async (params?: RecipeQueryParams) => {
     const response = await axios.get(url, {
         params,
     });
-    console.log('response', response);
     return response.data.recipe;
   } catch (error) {
     console.error('Error fetching random recipe:', error);

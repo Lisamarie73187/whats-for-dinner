@@ -4,6 +4,7 @@ import ButtonOptions from './ButtonOptions';
 import LoadingComponent from './LoadingCompontent';
 import HowAboutPrompt from './HowAboutPrompt';
 import { fetchRecipe } from '../api/fetchRecipe';
+import useRandomGetRecipeButtonPrompts from '../hooks/useRandomGetRecipePrompt';
 
 interface Recipe {
   id: number;
@@ -15,6 +16,7 @@ const RandomRecipeGenerator: React.FC = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const getRecipeButtonPrompt = useRandomGetRecipeButtonPrompts();
 
   // const getRandomRecipe = async () => {
   //   setLoading(true);
@@ -37,7 +39,6 @@ const RandomRecipeGenerator: React.FC = () => {
 
     try {
       const response = await fetchRecipe(params);
-      console.log('response', response);
       setRecipe(response);
     } catch (error) {
       console.error('Error fetching recipe:', error);
@@ -53,8 +54,10 @@ const RandomRecipeGenerator: React.FC = () => {
       {error && <p style={styles.error}>{error}</p>}
       {!recipe && !loading && (
           <div>
+            <div style={styles.header}>FOOD CO</div>
             <h1 style={styles.heading}>WTF Should I Make <br/>for Dinner?</h1>
-            <button style={styles.button} onClick={getRecipe}>Get Random Recipe</button>
+            <div style={styles.subheader}>Your go to guide on feeding yourself</div>
+            <button style={styles.button} onClick={getRecipe}>{getRecipeButtonPrompt}</button>
           </div>
         )
       }
@@ -81,23 +84,39 @@ const styles = {
     textAlign: 'center' as const,
     padding: '20px',
   },
+  header: {
+    fontFamily: "Young Serif",
+    fontWeight: "Bold",
+    fontStyle: "normal",
+    fontSize: '20px',
+    color: '#fffbf6',
+  },
   heading: {
     fontSize: '8rem',
-    color: '#333',
-    marginBottom: '20px',
+    color: '#fffbf6',
     fontFamily: "Irish Grover",
     fontWeight: "Regular",
     fontStyle: "normal",
+    marginTop: '60px',
+  },
+  subheader: {
+    fontFamily: "open sans",
+    fontStyle: "normal",
+    fontSize: '30px',
+    color: '#fffbf6',
+    marginTop: '130px',
   },
   button: {
-    backgroundColor: '#ff5722',
-    color: '#fff',
+    backgroundColor: '#fffbf6',
+    color: '#333',
     border: 'none',
     padding: '10px 20px',
-    fontSize: '1rem',
+    fontSize: '20px',
     cursor: 'pointer',
     borderRadius: '5px',
     transition: 'background-color 0.3s ease',
+    fontFamily: "open sans",
+    marginTop: '30px',
   },
   error: {
     fontSize: '1.2rem',
@@ -121,7 +140,7 @@ const styles = {
   },
   recipeTitle: {
     fontSize: '1.8rem',
-    color: '#333',
+    color: '#fffbf6',
     marginBottom: '20px',
   },
   recipeImage: {

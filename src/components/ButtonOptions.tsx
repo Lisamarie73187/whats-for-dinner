@@ -38,13 +38,13 @@ const Button: React.FC<ButtonProps> = ({ text, onClick }) => {
 
 const ButtonOptions: React.FC<ButtonOptionsProps> = ({  getRecipe, recipe }) => {
     const randomLoadingPrompt = useRandomPrompt(hateItButtonPrompts);
-    // const randomButtonPrompt = useRandomButtonPrompts(recipe)
+    const randomButtonPrompt = useRandomButtonPrompts(recipe)
     return (
         <div style={styles.buttonContainer}>
             <Button text={randomLoadingPrompt} onClick={getRecipe} />
-            {/* {randomButtonPrompt.map((buttonPrompt, index) => (
+            {randomButtonPrompt.map((buttonPrompt, index) => (
                 <Button key={index} text={buttonPrompt.prompt} onClick={() => getRecipe(buttonPrompt.params)} />
-            ))} */}
+            ))}
         </div>
     );
 };
@@ -58,15 +58,15 @@ const styles = {
         margin: '0 18vw',
     },
     button: {
-        backgroundColor: 'white',
-        padding: '30px 20px',
-        width: "30vw",
+        backgroundColor: '#fffbf6',
+        color: '#333',
         border: 'none',
-        borderRadius: '5px',
+        padding: '10px 20px',
+        fontSize: '20px',
         cursor: 'pointer',
-        fontSize: '30px',
-        transition: 'all 0.3s ease',
-        fontFamily: "Irish Grover",
-
+        borderRadius: '5px',
+        transition: 'background-color 0.3s ease',
+        fontFamily: "open sans",
+        marginTop: '30px',
     },
 };

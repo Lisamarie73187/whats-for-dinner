@@ -25,6 +25,7 @@ const styles = {
     container: {
         fontFamily: "Irish Grover",
         fontSize: '24px',
-        marginTop: '200px'
+        marginTop: '200px',
+        color: '#fffbf6',
     }
 }

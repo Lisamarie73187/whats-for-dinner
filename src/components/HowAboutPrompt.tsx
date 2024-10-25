@@ -33,7 +33,7 @@ const styles = {
     },
     subHeading: {
         fontSize: '5rem',
-        color: '#333',
+        color: '#fffbf6',
         fontFamily: "Irish Grover",
         fontWeight: "Regular",
         fontStyle: "normal",
