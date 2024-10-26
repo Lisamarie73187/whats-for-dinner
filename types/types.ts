@@ -28,3 +28,10 @@ export enum CuisineType {
     Salad = "Salad",
     Soup = "Soup"
   }
+
+  export enum health {
+    Vegan = "vegan",
+    Vegetarian = "vegetarian",
+    DiaryFree = "dairy-free",
+    GlutenFree = "gluten-free",
+  }

@@ -1,9 +1,11 @@
 export const promptsForMealType = [
-    "is like chewing on sadness and disappointment!",
-    "tastes like regret and broken dreams!",
-    "feels like a betrayal to my taste buds!",
-    "is as appealing as a soggy gym sock!",
-    "is what my nightmares taste like!",
+  "is like chewing on sadness and disappointment! We’re skipping that one.",
+  "tastes like regret and broken dreams! Let’s filter that out.",
+  "feels like a betrayal to my taste buds! We’ll pass on this meal.",
+  "is as appealing as a soggy gym sock! Off the list it goes.",
+  "is what my nightmares taste like! Removing it from the options.",
+  "tastes like someone gave up halfway. We’re skipping this one.",
+  "might be edible, but why risk it? We’ll pass on that.",
   ];
   
 export const loadingPromptsArray = [
@@ -16,11 +18,14 @@ export const loadingPromptsArray = [
 ]
   
 export const promptsForCuisine = [
-    "is what happens when spices get confused!",
-    "might make Nonna cry, and not in a good way.",
-    "could be amazing, but somehow misses the exit to flavor town.",
-    "not happening.",
-    ', Yeah, no.'
+  "is what happens when spices get confused! We're filtering out that cuisine.",
+  "might make Nonna cry, and not in a good way. We'll skip this one.",
+  "could be amazing, but somehow misses the exit to flavor town. We'll filter this one out.",
+  "Not happening. That cuisine is off the list.",
+  "Yeah, no. We're filtering that one out.",
+  "seems like a flavor experiment gone wrong. That’s a no-go. That cuisine is off the list.",
+  "tried to be fancy but ended up bland. Removing that cuisine from the list!",
+  "is like the culinary version of a flat note. Removing that cuisine from the list!"
   ];
 
   export const promptsMainButton = [
@@ -45,11 +50,8 @@ export const promptsForNoThanks = [
 ];
 
 export const errorMessages = [
-  "Oops! You’ve swiped through our entire recipe vault. Perhaps a little less picky? 😅",
-  "Looks like we’re out of ideas… and you’re out of options! Try mixing things up?",
-  "You’ve officially exhausted our recipe stockpile. How about a surprise dinner?",
-  "We’re fresh out of recipes! Even our chefs need a nap after that.",
-  "No more recipes left! At this point, it might be time for takeout!",
-  "Picky eater alert! Even our best options didn’t make the cut.",
-  "Congratulations! You’ve completed the recipe challenge. Maybe try a random selection?"
+  "Seriously? You’ve swiped through everything! Try being less picky, or we’re fresh out! 😅",
+  "You filtered so much that even our best recipes didn’t make the cut. Loosen up a little?",
+  "No more recipes left—looks like we eliminated all the good stuff. Maybe ease up on the filters?",
+  "Yep, we’re empty. It seems you’ve narrowed it down to... absolutely nothing. Try being a little less selective!"
 ];

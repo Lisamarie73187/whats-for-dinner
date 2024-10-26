@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useRandomPrompt from '../hooks/useRandomPrompt';
 import useRandomButtonPrompts from '../hooks/useRandomButtonPrompts';
 import { Button } from './Button';
@@ -19,7 +19,7 @@ const ButtonOptions: React.FC<ButtonOptionsProps> = ({  getRecipe, queries }) =>
         <div style={styles.buttonContainer}>
             <Button text={randomLoadingPrompt} onClick={() => getRecipe()} width={'20vw'}/>
             {randomButtonPrompt.map((buttonPrompt, index) => (
-                <Button key={index} text={buttonPrompt.prompt} onClick={() => getRecipe(buttonPrompt.params)} width={'20vw'}/>
+                buttonPrompt.prompt && <Button key={index} text={buttonPrompt.prompt} onClick={() => getRecipe(buttonPrompt.params)} width={'20vw'}/>
             ))}
         </div>
     );

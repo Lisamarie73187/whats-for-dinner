@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ButtonOptions from './ButtonOptions';
 import LoadingComponent from './LoadingCompontent';
 import HowAboutPrompt from './HowAboutPrompt';
@@ -8,6 +8,7 @@ import { Button } from './Button';
 import useRandomPrompt from '../hooks/useRandomPrompt';
 import { errorMessages } from '../prompts';
 import  ErrorModal  from './ErrorModal';
+import Toggle from './Toggle';
 
 interface Recipe {
   id: number;
@@ -21,13 +22,21 @@ const RandomRecipeGenerator: React.FC = () => {
   const [queries, setQueries] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isVegetarian, setIsVegetarian] = useState(() => {
+    const storedValue = localStorage.getItem("isVegetarian");
+    return storedValue === "true";
+});
+
   const getRecipeButtonPrompt = useRandomGetRecipeButtonPrompts();
   const errorPrompt = useRandomPrompt(errorMessages);
+
+  useEffect(() => {
+    localStorage.setItem("isVegetarian", JSON.stringify(isVegetarian));
+}, [isVegetarian]);
 
   const getRecipe = async (params?: any) => {
     setLoading(true);
     setError(null);
-    
 
     try {
       const response = await fetchRecipe(params);
@@ -49,14 +58,14 @@ const RandomRecipeGenerator: React.FC = () => {
           <div>
             <div style={styles.header}>FOOD CO</div>
             <h1>WTF Should I Make <br/>for Dinner?</h1>
-            <div style={styles.subheader}>Your go to guide on feeding yourself</div>
+            <h2>Your go to guide on feeding yourself</h2>
             <Button text={getRecipeButtonPrompt} onClick={getRecipe}/>
-            <Button text={'Error'} onClick={() => setError(errorPrompt)}/>
           </div>
         )
       }
       {recipe && !loading && (
         <div>
+          <Toggle initialState={isVegetarian} onLabel='Vegetarian' offLabel='Not Vegetarian' onToggle={() => setIsVegetarian(!isVegetarian)}/>
            <HowAboutPrompt/>
           <div style={styles.recipeContainer} onClick={() => window.open(`${recipe.url}`, "_blank")}>
             <div style={styles.recipeTitle}>{recipe.label}</div>
@@ -80,13 +89,6 @@ const styles = {
     fontStyle: "normal",
     fontSize: '20px',
     color: '#fffbf6',
-  },
-  subheader: {
-    fontFamily: "open sans",
-    fontStyle: "normal",
-    fontSize: '30px',
-    color: '#fffbf6',
-    marginTop: '130px',
   },
   error: {
     fontSize: '1.2rem',

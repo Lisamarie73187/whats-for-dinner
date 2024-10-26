@@ -5,7 +5,7 @@ interface ButtonPrompt {
     prompt: string;
     params: {
       cuisineType?: string;
-      dietType?: string;
+      health?: string;
       mealType?: string;
   };
 }

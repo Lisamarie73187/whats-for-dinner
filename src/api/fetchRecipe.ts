@@ -5,6 +5,8 @@ interface RecipeQueryParams {
 
 export const fetchRecipe = async (params?: RecipeQueryParams) => {
   const url = `http://localhost:3003/api/get-recipe`;
+  const vegetarian = localStorage.getItem('isVegetarian');
+  console.log('fetchRecipe vegetarian:', vegetarian);
 
   try {
     const response = await axios.get(url, {

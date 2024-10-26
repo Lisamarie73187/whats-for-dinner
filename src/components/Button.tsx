@@ -5,12 +5,13 @@ interface ButtonProps {
     text: string;
     onClick: () => void;
     width?: string;
+    color?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ text, onClick, width }) => {
+export const Button: React.FC<ButtonProps> = ({ text, onClick, width, color }) => {
     
     return (
-        <button onClick={onClick} style={{ ...styles.button, width }}>
+        <button onClick={onClick} style={{ ...styles.button, width, backgroundColor: color }}>
             {text}
         </button>
     );
