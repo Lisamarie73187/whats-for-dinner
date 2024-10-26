@@ -14,18 +14,8 @@ export enum CuisineType {
     Mediterranean = "Mediterranean",
     Mexican = "Mexican",
     MiddleEastern = "Middle Eastern",
-    Nordic = "Nordic",
     SouthAmerican = "South American",
     SouthEastAsian = "South East Asian"
-  }
-
-  export enum DietType {
-    Balanced = "balanced",
-    HighFiber = "high-fiber",
-    HighProtein = "high-protein",
-    LowCarb = "low-carb",
-    LowFat = "low-fat",
-    LowSodium = "low-sodium"
   }
 
   export enum MealType {

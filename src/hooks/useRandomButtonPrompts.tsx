@@ -1,3 +1,5 @@
+import { promptsForCuisine, promptsForMealType } from "../prompts";
+
   
 interface ButtonPrompt {
     prompt: string;
@@ -14,7 +16,7 @@ interface ButtonPrompt {
 
     if(queriesObj.cuisineType) {
       buttonPromptArr.push({
-        prompt: createPrompt(queriesObj.cuisineType, cuisinePrompts),
+        prompt: createPrompt(queriesObj.cuisineType, promptsForCuisine),
         params: {
           cuisineType: queriesObj.cuisineType,
         },
@@ -60,25 +62,6 @@ interface ButtonPrompt {
     }, {});
   }
    
-const promptsForMealType = [
-  "is like chewing on sadness and disappointment!",
-  "tastes like regret and broken dreams!",
-  "feels like a betrayal to my taste buds!",
-  "is basically a flavor crime!",
-  "is as appealing as a soggy gym sock!",
-  "is what my nightmares taste like!",
-];
-
-const cuisinePrompts = [
-  "is like a culinary vacation in the wrong country!",
-  "tastes like someone tried cooking with Google Translate instructions!",
-  "is what happens when spices get confused!",
-  "might make Nonna cry, and not in a good way.",
-  "is as authentic as fast food with a fancy name.",
-  "is like a dish with all the wrong subtitles!",
-  "could be amazing, but somehow misses the exit to flavor town."
-];
-
 const createPrompt = (inputString, prompts) => {
   const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
   

@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import {  Request, Response } from 'express';
-import { CuisineType, DietType, MealType } from '../../types/types';
+import { CuisineType, MealType } from '../../types/types';
 
 interface Recipe {
   label: string;
@@ -34,6 +34,7 @@ function getRandomAndRemove(array: string[]): string {
 }
 
 function generateRandomQueryParams(query: { cuisineType?: string, q?: string }): string {
+  let queryParams = '';
 
   if (query.cuisineType) {
     cuisineOptions = cuisineOptions.filter(cuisine => cuisine !== query.cuisineType);
@@ -43,30 +44,31 @@ function generateRandomQueryParams(query: { cuisineType?: string, q?: string }):
     mealOptions = mealOptions.filter(meal => meal !== query.q);
   }
 
-  if (cuisineOptions.length === 0) cuisineOptions = [...Object.values(CuisineType)];
-  if (mealOptions.length === 0) mealOptions = [...Object.values(MealType)];
-
-  console.log({ cuisineOptions, mealOptions });
-
   const randomCuisine = getRandomAndRemove(cuisineOptions);
   const randomMeal = getRandomAndRemove(mealOptions);
 
-  const queryParams = `cuisineType=${randomCuisine}&q=${randomMeal}`;
-  
+  if (randomCuisine && randomMeal) {
+    queryParams = `cuisineType=${randomCuisine}&q=${randomMeal}`;
+} else if (randomCuisine) {
+    queryParams = `cuisineType=${randomCuisine}`;
+}
+
   return queryParams;
 }
 
 
 export const getRecipeEdamam = async (req: Request, res: Response): Promise<void> => {
-  console.log('req.query:', req.query);
   try {
     const query = generateRandomQueryParams(req.query as { cuisineType: string; q: string });
-    const url = `https://api.edamam.com/search?${query}&app_id=${appId}&app_key=${appKey}&mealType=dinner&dishType=main course&random=true&from=0&to=100`;
+    if (!query) {
+      res.status(404).json({ message: 'No recipes found' });
+      return;
+    }   // const url = `https://api.edamam.com/search?${query}&app_id=${appId}&app_key=${appKey}&mealType=dinner&dishType=main course&random=true&from=0&to=100`;
 
     // const response: AxiosResponse<EdamamResponse> = await axios.get(url);
 
     // const recipes: RecipeHit[] = response.data.hits;
-    // if (recipes.length === 0) {
+    // if (recipes?.length === 0) {
     //   res.status(404).json({ message: 'No recipes found' });
     //   return;
     // }
@@ -78,6 +80,7 @@ export const getRecipeEdamam = async (req: Request, res: Response): Promise<void
     //   recipe: randomRecipe,
     //   queries: query
     // });
+ 
     res.json({
       recipe: recipe,
       queries: query

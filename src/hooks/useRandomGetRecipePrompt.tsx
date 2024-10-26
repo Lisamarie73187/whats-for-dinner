@@ -1,14 +1,8 @@
-const randomPrompts = [
-    'What ridiculous thing am I supposed to whip up now?',
-    'What the hell am I making for dinner?',
-    'Surprise me with something delicious',
-    'And I’m making… what?'
-]
-
+import { promptsMainButton } from "../prompts";
 
 const useRandomGetRecipeButtonPrompts = () => {
-    const randomIndex = Math.floor(Math.random() * randomPrompts.length);
-    return randomPrompts[randomIndex];
+    const randomIndex = Math.floor(Math.random() * promptsMainButton.length);
+    return promptsMainButton[randomIndex];
   };
 
 export default useRandomGetRecipeButtonPrompts;

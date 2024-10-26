@@ -1,14 +1,8 @@
 import React from 'react';
 import useRandomPrompt from '../hooks/useRandomPrompt';
+import { loadingPromptsArray } from '../prompts';
 
-const loadingPromptsArray = [
-    'Go grab a coffee, this might take a while.',
-    'Loading... because we love wasting your time.',
-    'Maybe it’s broken. Maybe not. Who knows?',
-    'Patience, young grasshopper.',
-    'Still loading... blame the internet.',
-    'Slow internet, huh?'
-]
+
 const LoadingComponent: React.FC = () => {
     const randomLoadingPrompt = useRandomPrompt(loadingPromptsArray);
 
@@ -24,7 +18,7 @@ export default LoadingComponent;
 const styles = {
     container: {
         fontFamily: "Irish Grover",
-        fontSize: '24px',
+        fontSize: '30px',
         marginTop: '200px',
         color: '#fffbf6',
     }

@@ -1,10 +1,54 @@
 .App {
   text-align: center;
   padding-top: 20px;
-  height: 100vh;
+  height: 120vh;
   width: 100vw;
   background-image: url('../assets/Home\ \(1\).jpg');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
+}
+
+h1{
+  font-size: 8rem;
+  color: #fffbf6;
+  font-family: "Irish Grover";
+  font-weight: 400;
+  font-style: normal;
+  margin-top: 60px;
+}
+
+
+/* modal */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
 }
