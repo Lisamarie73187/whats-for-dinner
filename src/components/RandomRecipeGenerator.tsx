@@ -4,7 +4,6 @@ import LoadingComponent from './LoadingCompontent';
 import HowAboutPrompt from './HowAboutPrompt';
 import { fetchRecipe } from '../api/fetchRecipe';
 import useRandomGetRecipeButtonPrompts from '../hooks/useRandomGetRecipePrompt';
-import { Button } from './Button';
 import useRandomPrompt from '../hooks/useRandomPrompt';
 import { errorMessages } from '../prompts';
 import  ErrorModal  from './ErrorModal';
@@ -67,7 +66,7 @@ const RandomRecipeGenerator: React.FC = () => {
       }
       {recipe && !loading && (
         <div>
-          <Toggle initialState={isVegetarian} onLabel='Vegetarian' offLabel='Not Vegetarian' onToggle={() => setIsVegetarian(!isVegetarian)}/>
+          <Toggle initialState={isVegetarian} onToggle={() => setIsVegetarian(!isVegetarian)} label='Vegetarian'/>
            <HowAboutPrompt/>
           <div style={styles.recipeContainer} onClick={() => window.open(`${recipe.url}`, "_blank")}>
             <div style={styles.recipeTitle}>{recipe.label}</div>

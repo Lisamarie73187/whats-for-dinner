@@ -32,7 +32,7 @@ const styles = {
         justifyContent: 'center',
     },
     subHeading: {
-        fontSize: '5rem',
+        fontSize: '40px',
         color: '#fffbf6',
         fontFamily: "Irish Grover",
         fontWeight: "Regular",

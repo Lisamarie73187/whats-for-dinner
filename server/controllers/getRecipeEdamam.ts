@@ -74,27 +74,27 @@ export const getRecipeEdamam = async (req: Request, res: Response): Promise<void
     }  
      const url = `https://api.edamam.com/search?${query}&app_id=${appId}&app_key=${appKey}&mealType=dinner&dishType=main course&random=true&from=0&to=100`;
 
-    // const response: AxiosResponse<EdamamResponse> = await axios.get(url);
+    const response: AxiosResponse<EdamamResponse> = await axios.get(url);
 
-    // const recipes: RecipeHit[] = response.data.hits;
-    // if (recipes?.length === 0) {
-    //   res.status(404).json({ message: 'No recipes found' });
-    //   return;
-    // }
+    const recipes: RecipeHit[] = response.data.hits;
+    if (recipes?.length === 0) {
+      res.status(404).json({ message: 'No recipes found' });
+      return;
+    }
 
-    // const randomIndex = Math.floor(Math.random() * recipes.length);
-    // const randomRecipe: Recipe = recipes[randomIndex].recipe;
+    const randomIndex = Math.floor(Math.random() * recipes.length);
+    const randomRecipe: Recipe = recipes[randomIndex].recipe;
 
-    // res.json({
-    //   recipe: randomRecipe,
-    //   queries: query
-    // });
- 
     res.json({
-      recipe: recipe,
+      recipe: randomRecipe,
       queries: query
     });
-    
+ 
+    // res.json({
+    //   recipe: recipe,
+    //   queries: query
+    // });
+
   } catch (error) {
     console.error('Error fetching recipes:', error);
     res.status(500).json({ message: 'Server error', error: (error as Error).message });
