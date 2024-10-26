@@ -20,21 +20,26 @@ interface EdamamResponse {
 const appId: string = process.env.EDAMAM_API_ID as string;
 const appKey: string = process.env.EDAMAM_API_KEY as string;
 
-let cuisineOptions: any[] = [...Object.values(CuisineType)];
-let mealOptions: any[] = [...Object.values(MealType)];
+let cuisineOptions: string[] = [...Object.values(CuisineType)];
+let mealOptions: string[] = [...Object.values(MealType)];
 
-function getRandomAndRemove(array: string[]): string {
+function getRandom(array: string[]): string {
   if (array.length === 0) return "";
-  
+
   const randomIndex = Math.floor(Math.random() * array.length);
-  const value = array[randomIndex];
-  
-  array.splice(randomIndex, 1);
-  return value;
+  return array[randomIndex];
 }
 
-function generateRandomQueryParams(query: { cuisineType?: string, q?: string }): string {
-  let queryParams = '';
+function generateRandomQueryParams(query: { cuisineType?: string; q?: string, vegetarian?: string }): string {
+  const isVegetarian = query.vegetarian === 'true';
+  let queryParams = "";
+
+  if (isVegetarian) {
+    queryParams = "health=vegetarian";
+    mealOptions = []
+  } else {
+    mealOptions = [...Object.values(MealType)];
+  }
 
   if (query.cuisineType) {
     cuisineOptions = cuisineOptions.filter(cuisine => cuisine !== query.cuisineType);
@@ -44,14 +49,17 @@ function generateRandomQueryParams(query: { cuisineType?: string, q?: string }):
     mealOptions = mealOptions.filter(meal => meal !== query.q);
   }
 
-  const randomCuisine = getRandomAndRemove(cuisineOptions);
-  const randomMeal = getRandomAndRemove(mealOptions);
+  const randomCuisine = getRandom(cuisineOptions);
+  const randomMeal = getRandom(mealOptions);
 
-  if (randomCuisine && randomMeal) {
-    queryParams = `cuisineType=${randomCuisine}&q=${randomMeal}`;
-} else if (randomCuisine) {
-    queryParams = `cuisineType=${randomCuisine}`;
-}
+  if (randomCuisine) {
+    queryParams += queryParams ? `&cuisineType=${randomCuisine}` : `cuisineType=${randomCuisine}`;
+  }
+  if (randomMeal) {
+    queryParams += queryParams ? `&q=${randomMeal}` : `q=${randomMeal}`;
+  } else {
+    queryParams += queryParams ? `&q=main course` : `q=main course`;
+  }
 
   return queryParams;
 }
@@ -63,28 +71,29 @@ export const getRecipeEdamam = async (req: Request, res: Response): Promise<void
     if (!query) {
       res.status(404).json({ message: 'No recipes found' });
       return;
-    }   // const url = `https://api.edamam.com/search?${query}&app_id=${appId}&app_key=${appKey}&mealType=dinner&dishType=main course&random=true&from=0&to=100`;
+    }  
+     const url = `https://api.edamam.com/search?${query}&app_id=${appId}&app_key=${appKey}&mealType=dinner&dishType=main course&random=true&from=0&to=100`;
 
-    // const response: AxiosResponse<EdamamResponse> = await axios.get(url);
+    const response: AxiosResponse<EdamamResponse> = await axios.get(url);
 
-    // const recipes: RecipeHit[] = response.data.hits;
-    // if (recipes?.length === 0) {
-    //   res.status(404).json({ message: 'No recipes found' });
-    //   return;
-    // }
+    const recipes: RecipeHit[] = response.data.hits;
+    if (recipes?.length === 0) {
+      res.status(404).json({ message: 'No recipes found' });
+      return;
+    }
 
-    // const randomIndex = Math.floor(Math.random() * recipes.length);
-    // const randomRecipe: Recipe = recipes[randomIndex].recipe;
+    const randomIndex = Math.floor(Math.random() * recipes.length);
+    const randomRecipe: Recipe = recipes[randomIndex].recipe;
 
-    // res.json({
-    //   recipe: randomRecipe,
-    //   queries: query
-    // });
- 
     res.json({
-      recipe: recipe,
+      recipe: randomRecipe,
       queries: query
     });
+ 
+    // res.json({
+    //   recipe: recipe,
+    //   queries: query
+    // });
   } catch (error) {
     console.error('Error fetching recipes:', error);
     res.status(500).json({ message: 'Server error', error: (error as Error).message });

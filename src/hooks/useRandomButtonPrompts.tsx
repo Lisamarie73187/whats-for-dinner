@@ -23,7 +23,7 @@ interface ButtonPrompt {
       });
     }
 
-    if(queriesObj.q) {
+    if(queriesObj.q && queriesObj.q !== 'main course') {
       buttonPromptArr.push({
         prompt: createPrompt(queriesObj.q, promptsForMealType),
         params: {
