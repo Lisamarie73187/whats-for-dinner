@@ -6,9 +6,9 @@ import { fetchRecipe } from '../api/fetchRecipe';
 import useRandomGetRecipeButtonPrompts from '../hooks/useRandomGetRecipePrompt';
 import useRandomPrompt from '../hooks/useRandomPrompt';
 import { errorMessages } from '../prompts';
-import  ErrorModal  from './ErrorModal';
+import ErrorModal from './ErrorModal';
 import Toggle from './Toggle';
-import AnimatedText from './AnimatedText';
+import AnimatedHeader from './AnimatedHeader';
 import AnimatedButton from './AnimatedButton';
 
 interface Recipe {
@@ -16,24 +16,31 @@ interface Recipe {
   label: string;
   image: string;
   url: string;
-  }
+}
+
+const STORAGE_KEY = "isVegetarian";
+const HEADER_TEXT = "FOOD CO";
+const SUBHEADER_TEXT = "Your go-to guide on feeding yourself";
+const ERROR_DEFAULT = "Oops! Something went wrong. Please try again later, maybe too many calls on this free API I am using. Sorry!";
+const TOGGLE_LABEL = "Vegetarian";
 
 const RandomRecipeGenerator: React.FC = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [queries, setQueries] = useState<Recipe | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const [isVegetarian, setIsVegetarian] = useState(() => {
-    const storedValue = localStorage.getItem("isVegetarian");
+    const storedValue = localStorage.getItem(STORAGE_KEY);
     return storedValue === "true";
-});
+  });
 
   const getRecipeButtonPrompt = useRandomGetRecipeButtonPrompts();
   const errorPrompt = useRandomPrompt(errorMessages);
 
   useEffect(() => {
-    localStorage.setItem("isVegetarian", JSON.stringify(isVegetarian));
-}, [isVegetarian]);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(isVegetarian));
+  }, [isVegetarian]);
 
   const getRecipe = async (params?: any) => {
     setLoading(true);
@@ -44,79 +51,49 @@ const RandomRecipeGenerator: React.FC = () => {
       setRecipe(response.recipe);
       setQueries(response.queries);
     } catch (error) {
+      setError(
+        (error as Error).message === 'Recipes Filtered Too Much'
+          ? errorPrompt
+          : ERROR_DEFAULT
+      );
       console.error('Error fetching recipe:', error);
-      setError(errorPrompt);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      {loading && <LoadingComponent/>}
-      {<ErrorModal text={errorPrompt} show={error} onClose={() => setError(null)}/> }
+    <div className="container">
+      {loading && <LoadingComponent />}
+      {error && <ErrorModal text={error} show={!!error} onClose={() => setError(null)} />}
       {!recipe && !loading && (
-          <div>
-            <div style={styles.header}>FOOD CO</div>
-            <AnimatedText/>
-            <h2>Your go to guide on feeding yourself</h2>
-            <AnimatedButton text={getRecipeButtonPrompt} onClick={getRecipe}/>
-          </div>
-        )
-      }
+        <div>
+          <div className="header">{HEADER_TEXT}</div>
+          <AnimatedHeader />
+          <h2>{SUBHEADER_TEXT}</h2>
+          <AnimatedButton text={getRecipeButtonPrompt} onClick={() => getRecipe()} />
+        </div>
+      )}
       {recipe && !loading && (
         <div>
-          <Toggle initialState={isVegetarian} onToggle={() => setIsVegetarian(!isVegetarian)} label='Vegetarian'/>
-           <HowAboutPrompt/>
-          <div style={styles.recipeContainer} onClick={() => window.open(`${recipe.url}`, "_blank")}>
-            <div style={styles.recipeTitle}>{recipe.label}</div>
-            <img src={recipe.image} alt={recipe.label} style={styles.recipeImage} />
+          <Toggle
+            initialState={isVegetarian}
+            onToggle={() => setIsVegetarian(!isVegetarian)}
+            label={TOGGLE_LABEL}
+          />
+          <HowAboutPrompt />
+          <div
+            className="recipe-container"
+            onClick={() => window.open(recipe.url, "_blank")}
+          >
+            <div className="recipe-title">{recipe.label}</div>
+            <img src={recipe.image} alt={recipe.label} className="recipe-image" />
           </div>
-          <ButtonOptions getRecipe={getRecipe} recipe={recipe} queries={queries}/>
+          <ButtonOptions getRecipe={getRecipe} recipe={recipe} queries={queries} />
         </div>
       )}
     </div>
   );
 };
-
-const styles = {
-  container: {
-    textAlign: 'center' as const,
-    padding: '20px',
-  },
-  header: {
-    fontFamily: "Young Serif",
-    fontWeight: "Bold",
-    fontStyle: "normal",
-    fontSize: '20px',
-    color: '#fffbf6',
-  },
-  error: {
-    fontSize: '1.2rem',
-    color: 'red',
-    marginTop: '20px',
-  },
-  recipeContainer: {
-    height: '400px',
-    marginTop: '10px',
-    padding: '20px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    textAlign: 'center' as const,
-    cursor: 'pointer',
-  },
-  recipeTitle: {
-    fontSize: '1.8rem',
-    color: '#fffbf6',
-    marginBottom: '20px',
-  },
-  recipeImage: {
-    width: '350px',
-    borderRadius: '10px',
-    marginBottom: '30px',
-  },
-};
-
 
 export default RandomRecipeGenerator;

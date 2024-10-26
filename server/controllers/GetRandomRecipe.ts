@@ -10,7 +10,8 @@ export const getRandomRecipe = async (req: Request, res: Response) => {
   let url= `https://api.spoonacular.com/recipes/random?apiKey=${SPOONACULAR_API_KEY}&include-tags=dinner`;
 
   try {
-    // const response = await axios.get(url);
+    const response = await axios.get(url);
+    console.log('Random recipes fetched successfully');
     res.json({
       message: 'Random recipes fetched successfully',
       data: {recipes: [mockRecipe]},

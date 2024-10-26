@@ -1,10 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const AnimatedText: React.FC = () => {
+const AnimatedHeader: React.FC = () => {
   const text = "WTF Should I Make for Dinner?";
 
-  // Define animation variants for each word
   const wordAnimation = {
     hidden: { opacity: 0, y: -50 },
     visible: {
@@ -12,8 +11,8 @@ const AnimatedText: React.FC = () => {
       y: 0,
       transition: {
         type: 'spring',
-        damping: 8,     // Controls the bounciness (lower value = more bounce)
-        stiffness: 100, // Controls the speed of the spring (higher value = faster)
+        damping: 8,
+        stiffness: 100,
       }
     }
   };
@@ -25,7 +24,7 @@ const AnimatedText: React.FC = () => {
       variants={{
         visible: {
           transition: {
-            staggerChildren: 0.2,  // Delays each word slightly
+            staggerChildren: 0.2,
           }
         }
       }}
@@ -37,11 +36,11 @@ const AnimatedText: React.FC = () => {
           variants={wordAnimation} 
           className="animated-text"
         >
-          {word}&nbsp; {/* Adds space between words */}
+          {word}&nbsp;
         </motion.span>
       ))}
     </motion.div>
   );
 };
 
-export default AnimatedText;
+export default AnimatedHeader;

@@ -6,7 +6,5 @@ const router = express.Router();
 
 router.get('/get-random-recipe', getRandomRecipe);
 router.get('/get-recipe', getRecipeEdamam);
-// router.get('/get-recipe', getRecipe);
-
 
 export default router;

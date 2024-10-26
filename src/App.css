@@ -9,16 +9,53 @@
   background-position: center;
 }
 
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+.header {
+  font-family: "Young Serif";
+  font-weight: bold;
+  font-style: normal;
+  font-size: 20px;
+  color: #fffbf6;
+}
+
+.recipe-container {
+  height: 400px;
+  margin-top: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.recipe-title {
+  font-size: 1.8rem;
+  color: #fffbf6;
+  margin-bottom: 20px;
+}
+
+.recipe-image {
+  width: 350px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+
 .animated-text-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center; /* Center the text within the container */
-  width: 80%; /* Set the width to 80% of the parent container */
-  margin: 0 auto; /* Center the container within its parent */
-  flex-wrap: wrap; /* Allows the text to wrap naturally if needed */
-  gap: 0.2rem; /* Small gap between words */
-  margin-top: 60px; /* Margin from the top */
+  text-align: center;
+  width: 80%;
+  margin: 60px auto 0 auto;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  padding-left: 30px;
 }
 
 .animated-text {
@@ -27,8 +64,8 @@
   font-family: "Irish Grover", cursive;
   font-weight: 400;
   font-style: normal;
-  margin: 0; /* Ensure no extra space is added around words */
-  padding: 0; /* Ensure no extra space is added around words */
+  margin: 0;
+  padding: 0;
 }
 
 h1{
