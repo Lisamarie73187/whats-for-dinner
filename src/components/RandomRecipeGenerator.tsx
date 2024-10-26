@@ -9,6 +9,8 @@ import useRandomPrompt from '../hooks/useRandomPrompt';
 import { errorMessages } from '../prompts';
 import  ErrorModal  from './ErrorModal';
 import Toggle from './Toggle';
+import AnimatedText from './AnimatedText';
+import AnimatedButton from './AnimatedButton';
 
 interface Recipe {
   id: number;
@@ -57,9 +59,9 @@ const RandomRecipeGenerator: React.FC = () => {
       {!recipe && !loading && (
           <div>
             <div style={styles.header}>FOOD CO</div>
-            <h1>WTF Should I Make <br/>for Dinner?</h1>
+            <AnimatedText/>
             <h2>Your go to guide on feeding yourself</h2>
-            <Button text={getRecipeButtonPrompt} onClick={getRecipe}/>
+            <AnimatedButton text={getRecipeButtonPrompt} onClick={getRecipe}/>
           </div>
         )
       }

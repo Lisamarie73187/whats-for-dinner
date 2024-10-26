@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import useRandomPrompt from '../hooks/useRandomPrompt';
 import useRandomButtonPrompts from '../hooks/useRandomButtonPrompts';
-import { Button } from './Button';
 import { promptsForNoThanks } from '../prompts';
+import AnimatedButton from './AnimatedButton';
 
 interface ButtonOptionsProps {
     getRecipe: (queries?: any) => void;
@@ -17,10 +17,10 @@ const ButtonOptions: React.FC<ButtonOptionsProps> = ({ getRecipe, queries }) => 
 
     return (
         <div style={styles.buttonContainer}>
-            <Button text={randomLoadingPrompt.current} onClick={() => getRecipe()} width={'20vw'} />
+            <AnimatedButton text={randomLoadingPrompt.current} onClick={() => getRecipe()} width={'20vw'} />
             {randomButtonPrompts.current.map((buttonPrompt, index) => (
                 buttonPrompt.prompt && (
-                    <Button
+                    <AnimatedButton
                         key={index}
                         text={buttonPrompt.prompt}
                         onClick={() => getRecipe(buttonPrompt.params)}

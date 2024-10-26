@@ -9,8 +9,31 @@
   background-position: center;
 }
 
+.animated-text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center; /* Center the text within the container */
+  width: 80%; /* Set the width to 80% of the parent container */
+  margin: 0 auto; /* Center the container within its parent */
+  flex-wrap: wrap; /* Allows the text to wrap naturally if needed */
+  gap: 0.2rem; /* Small gap between words */
+  margin-top: 60px; /* Margin from the top */
+}
+
+.animated-text {
+  font-size: 8rem;
+  color: #fffbf6;
+  font-family: "Irish Grover", cursive;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0; /* Ensure no extra space is added around words */
+  padding: 0; /* Ensure no extra space is added around words */
+}
+
 h1{
   font-size: 8rem;
+  display: flex;
   color: #fffbf6;
   font-family: "Irish Grover";
   font-weight: 400;
