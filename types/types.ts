@@ -23,8 +23,10 @@ export enum CuisineType {
     Beef = "Beef",
     Pork = "Pork",
     Turkey = "Turkey",
-    Vegetarian = "Vegetarian",
-    Vegan = "Vegan"
+    Seafood = "Seafood",
+    Pasta = "Pasta",
+    Lamb = "Lamb",
+    Pizza = "Pizza",
   }
 
   export enum health {

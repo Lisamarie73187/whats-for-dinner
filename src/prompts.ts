@@ -4,7 +4,6 @@ export const promptsForMealType = [
   "feels like a betrayal to my taste buds! We’ll pass on this meal.",
   "is as appealing as a soggy gym sock! Off the list it goes.",
   "is what my nightmares taste like! Removing it from the options.",
-  "tastes like someone gave up halfway. We’re skipping this one.",
   "might be edible, but why risk it? We’ll pass on that.",
   ];
   
@@ -28,7 +27,7 @@ export const promptsForCuisine = [
   "is like the culinary version of a flat note. Removing that cuisine from the list!"
   ];
 
-  export const promptsMainButton = [
+export const promptsMainButton = [
     'What ridiculous thing am I supposed to whip up now?',
     'What the hell am I making for dinner?',
     'Surprise me with something delicious',

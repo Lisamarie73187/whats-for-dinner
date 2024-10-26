@@ -30,23 +30,20 @@ function getRandom(array: string[]): string {
   return array[randomIndex];
 }
 
-function generateRandomQueryParams(query: { cuisineType?: string; q?: string, vegetarian?: string }): string {
+function generateRandomQueryParams(query: { cuisineType?: string; mealType?: string, vegetarian?: string }): string {
   const isVegetarian = query.vegetarian === 'true';
   let queryParams = "";
 
   if (isVegetarian) {
     queryParams = "health=vegetarian";
-    mealOptions = []
-  } else {
-    mealOptions = [...Object.values(MealType)];
-  }
+  } 
 
   if (query.cuisineType) {
     cuisineOptions = cuisineOptions.filter(cuisine => cuisine !== query.cuisineType);
   }
 
-  if (query.q) {
-    mealOptions = mealOptions.filter(meal => meal !== query.q);
+  if (query.mealType) {
+    mealOptions = mealOptions.filter(meal => meal !== query.mealType);
   }
 
   const randomCuisine = getRandom(cuisineOptions);
@@ -55,11 +52,12 @@ function generateRandomQueryParams(query: { cuisineType?: string; q?: string, ve
   if (randomCuisine) {
     queryParams += queryParams ? `&cuisineType=${randomCuisine}` : `cuisineType=${randomCuisine}`;
   }
-  if (randomMeal) {
+  if (randomMeal && !isVegetarian) {
     queryParams += queryParams ? `&q=${randomMeal}` : `q=${randomMeal}`;
   } else {
     queryParams += queryParams ? `&q=main course` : `q=main course`;
   }
+  
 
   return queryParams;
 }
@@ -74,26 +72,26 @@ export const getRecipeEdamam = async (req: Request, res: Response): Promise<void
     }  
      const url = `https://api.edamam.com/search?${query}&app_id=${appId}&app_key=${appKey}&mealType=dinner&dishType=main course&random=true&from=0&to=100`;
 
-    const response: AxiosResponse<EdamamResponse> = await axios.get(url);
+    // const response: AxiosResponse<EdamamResponse> = await axios.get(url);
 
-    const recipes: RecipeHit[] = response.data.hits;
-    if (recipes?.length === 0) {
-      res.status(404).json({ message: 'No recipes found' });
-      return;
-    }
+    // const recipes: RecipeHit[] = response.data.hits;
+    // if (recipes?.length === 0) {
+    //   res.status(404).json({ message: 'No recipes found' });
+    //   return;
+    // }
 
-    const randomIndex = Math.floor(Math.random() * recipes.length);
-    const randomRecipe: Recipe = recipes[randomIndex].recipe;
+    // const randomIndex = Math.floor(Math.random() * recipes.length);
+    // const randomRecipe: Recipe = recipes[randomIndex].recipe;
 
-    res.json({
-      recipe: randomRecipe,
-      queries: query
-    });
- 
     // res.json({
-    //   recipe: recipe,
+    //   recipe: randomRecipe,
     //   queries: query
     // });
+ 
+    res.json({
+      recipe: recipe,
+      queries: query
+    });
 
   } catch (error) {
     console.error('Error fetching recipes:', error);
