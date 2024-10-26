@@ -36,7 +36,7 @@ const styles = {
         fontSize: '16px',
         cursor: 'pointer',
         borderRadius: '20px',
-        backgroundColor: isOn ? '#4CAF50' : '#ccc',
+        backgroundColor: isOn ? '#34c1bf' : '#ccc',
         color: '#fff',
         border: 'none',
         transition: 'background-color 0.3s ease',

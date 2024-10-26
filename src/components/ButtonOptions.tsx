@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import useRandomPrompt from '../hooks/useRandomPrompt';
 import useRandomButtonPrompts from '../hooks/useRandomButtonPrompts';
 import { Button } from './Button';
@@ -10,16 +10,23 @@ interface ButtonOptionsProps {
     queries: any;
 }
 
-
-const ButtonOptions: React.FC<ButtonOptionsProps> = ({  getRecipe, queries }) => {
-    const randomLoadingPrompt = useRandomPrompt(promptsForNoThanks);
-    const randomButtonPrompt = useRandomButtonPrompts(queries)
+const ButtonOptions: React.FC<ButtonOptionsProps> = ({ getRecipe, queries }) => {
+    // Store the prompts using useRef to keep them constant
+    const randomLoadingPrompt = useRef(useRandomPrompt(promptsForNoThanks));
+    const randomButtonPrompts = useRef(useRandomButtonPrompts(queries));
 
     return (
         <div style={styles.buttonContainer}>
-            <Button text={randomLoadingPrompt} onClick={() => getRecipe()} width={'20vw'}/>
-            {randomButtonPrompt.map((buttonPrompt, index) => (
-                buttonPrompt.prompt && <Button key={index} text={buttonPrompt.prompt} onClick={() => getRecipe(buttonPrompt.params)} width={'20vw'}/>
+            <Button text={randomLoadingPrompt.current} onClick={() => getRecipe()} width={'20vw'} />
+            {randomButtonPrompts.current.map((buttonPrompt, index) => (
+                buttonPrompt.prompt && (
+                    <Button
+                        key={index}
+                        text={buttonPrompt.prompt}
+                        onClick={() => getRecipe(buttonPrompt.params)}
+                        width={'20vw'}
+                    />
+                )
             ))}
         </div>
     );
