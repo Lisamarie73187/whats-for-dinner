@@ -10,7 +10,7 @@ import ErrorModal from './ErrorModal';
 import Toggle from './Toggle';
 import AnimatedHeader from './AnimatedHeader';
 import AnimatedButton from './AnimatedButton';
-import Recipe from './Recipe';
+import RecipeComponent from './Recipe';
 
 interface Recipe {
   id: number;
@@ -19,11 +19,14 @@ interface Recipe {
   url: string;
 }
 
-const STORAGE_KEY = "isVegetarian";
 const HEADER_TEXT = "FOOD CO";
 const SUBHEADER_TEXT = "Your go-to guide on feeding yourself";
 const ERROR_DEFAULT = "Oops! Something went wrong. Please try again later, maybe too many calls on this free API I am using. Sorry!";
-const TOGGLE_LABEL = "Vegetarian";
+
+// Local Storage Keys
+const VEGETARIAN_KEY = "isVegetarian";
+const GLUTEN_FREE_KEY = "isGlutenFree";
+const DAIRY_FREE_KEY = "isDairyFree";
 
 const RandomRecipeGenerator: React.FC = () => {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -32,7 +35,17 @@ const RandomRecipeGenerator: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const [isVegetarian, setIsVegetarian] = useState(() => {
-    const storedValue = localStorage.getItem(STORAGE_KEY);
+    const storedValue = localStorage.getItem(VEGETARIAN_KEY);
+    return storedValue === "true";
+  });
+
+  const [isGlutenFree, setIsGlutenFree] = useState(() => {
+    const storedValue = localStorage.getItem(GLUTEN_FREE_KEY);
+    return storedValue === "true";
+  });
+
+  const [isDairyFree, setIsDairyFree] = useState(() => {
+    const storedValue = localStorage.getItem(DAIRY_FREE_KEY);
     return storedValue === "true";
   });
 
@@ -40,8 +53,16 @@ const RandomRecipeGenerator: React.FC = () => {
   const errorPrompt = useRandomPrompt(errorMessages);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(isVegetarian));
+    localStorage.setItem(VEGETARIAN_KEY, JSON.stringify(isVegetarian));
   }, [isVegetarian]);
+
+  useEffect(() => {
+    localStorage.setItem(GLUTEN_FREE_KEY, JSON.stringify(isGlutenFree));
+  }, [isGlutenFree]);
+
+  useEffect(() => {
+    localStorage.setItem(DAIRY_FREE_KEY, JSON.stringify(isDairyFree));
+  }, [isDairyFree]);
 
   const getRecipe = async (params?: any) => {
     setLoading(true);
@@ -76,17 +97,30 @@ const RandomRecipeGenerator: React.FC = () => {
         </div>
       )}
       {recipe && !loading && (
-        <div>
+        <div >
+          <div className='toggleContainer'>
           <Toggle
             initialState={isVegetarian}
             onToggle={() => setIsVegetarian(!isVegetarian)}
-            label={TOGGLE_LABEL}
+            label="Vegetarian"
           />
+          <Toggle
+            initialState={isGlutenFree}
+            onToggle={() => setIsGlutenFree(!isGlutenFree)}
+            label="Gluten-Free"
+          />
+          <Toggle
+            initialState={isDairyFree}
+            onToggle={() => setIsDairyFree(!isDairyFree)}
+            label="Dairy-Free"
+          />
+          </div>
           <HowAboutPrompt />
-          <Recipe label={recipe.label} image={recipe.image} url={recipe.url} />
+          <RecipeComponent label={recipe.label} image={recipe.image} url={recipe.url} />
           <ButtonOptions getRecipe={getRecipe} recipe={recipe} queries={queries} />
         </div>
       )}
+      <div className='footer'>Lisa Marie Herzberg ©2024</div>
     </div>
   );
 };

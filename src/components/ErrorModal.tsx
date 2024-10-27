@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from './Button';
+import AnimatedButton from './AnimatedButton';
 
 const ErrorModal = ({ show, onClose, text}) => {
     if (!show) return null;
@@ -13,7 +13,7 @@ const ErrorModal = ({ show, onClose, text}) => {
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <button className="modal-close" onClick={onClose}>×</button>
                 <h3>{text}</h3>
-                <Button text={"Start Over, Please"} onClick={handleReset} color={'#fdac1f'}/>
+                <AnimatedButton text={"Start Over, Please"} onClick={handleReset} color={'#fdac1f'}/>
             </div>
         </div>
     );

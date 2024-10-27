@@ -4,15 +4,22 @@ interface RecipeQueryParams {
   cuisineType?: string;
   q?: string;
   vegetarian?: string | null;
+  glutenFree?: string | null;
+  dairyFree?: string | null;
 }
 
 export const fetchRecipe = async (params?: RecipeQueryParams) => {
   const url = `http://localhost:3003/api/get-recipe`;
-  
+
   const vegetarian = localStorage.getItem('isVegetarian');
+  const glutenFree = localStorage.getItem('isGlutenFree');
+  const dairyFree = localStorage.getItem('isDairyFree');
+
   params = {
     ...params,
     vegetarian,
+    glutenFree,
+    dairyFree,
   };
 
   try {

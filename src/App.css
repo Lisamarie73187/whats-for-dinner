@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   padding-top: 20px;
-  height: 120vh;
+  height: 100vh;
   width: 100vw;
   background-image: url('../assets/Home\ \(1\).jpg');
   background-attachment: fixed;
@@ -60,6 +60,23 @@
   margin: 0 25vw;
 }
 
+.animated-button {
+  background-color: #fffbf6;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 20px;
+  box-shadow: 10px -6px 15px -11px rgba(0, 0, 0, 0.75);
+}
+
+.animated-button:hover {
+  background-color: #eee;
+  box-shadow: 10px -6px 20px -10px rgba(0, 0, 0, 0.5);
+}
 
 .animated-text-container {
   display: flex;
@@ -86,6 +103,7 @@
 .promptContainer {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .promptSubheading {
@@ -156,4 +174,77 @@ h3 {
   border: none;
   font-size: 24px;
   cursor: pointer;
+}
+
+.animated-selection {
+  color: #fffbf6;
+  font-size: 25px;
+  cursor: pointer;
+  font-family: "Irish Grover", cursive;
+  margin-top: 50px;
+  font-weight: 400;
+  width: 20vw;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.animated-selection:hover {
+  color: #fffbf6b2;
+}
+
+.toggleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 35vw;
+}
+
+.toggle-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 20px;
+}
+
+.toggle-label {
+  font-size: 18px;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: regular;
+}
+
+.toggle-button {
+  width: 60px;
+  height: 30px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.toggle-button-text {
+  padding: 0 10px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #fff;
 }

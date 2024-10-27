@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import {  Request, Response } from 'express';
 import { CuisineType, MealType } from '../../types/types';
+import dotenv from 'dotenv';
+dotenv.config();
 
 interface Recipe {
   label: string;
@@ -17,6 +19,14 @@ interface EdamamResponse {
   hits: RecipeHit[];
 }
 
+interface RecipeQueryParams {
+  cuisineType?: string;
+  mealType?: string;
+  vegetarian?: string | null;
+  glutenFree?: string | null;
+  dairyFree?: string | null;
+}
+
 const appId: string = process.env.EDAMAM_API_ID as string;
 const appKey: string = process.env.EDAMAM_API_KEY as string;
 
@@ -30,60 +40,50 @@ function getRandom(array: string[]): string {
   return array[randomIndex];
 }
 
-function generateRandomQueryParams(query: { cuisineType?: string; mealType?: string, vegetarian?: string }): string {
+const generateRandomQueryParams = (query: RecipeQueryParams): string => {
   const isVegetarian = query.vegetarian === 'true';
+  const isGlutenFree = query.glutenFree === 'true';
+  const isDairyFree = query.dairyFree === 'true';
+
+  // Helper arrow function to add query parameters
+  const addQueryParam = (param: string, value: string) =>
+    queryParams ? `${queryParams}&${param}=${value}` : `${param}=${value}`;
+
   let queryParams = "";
 
-  if (isVegetarian) {
-    queryParams = "health=vegetarian";
-  } 
+  if (isVegetarian) queryParams = addQueryParam("health", "vegetarian");
+  if (isGlutenFree) queryParams = addQueryParam("health", "gluten-free");
+  if (isDairyFree) queryParams = addQueryParam("health", "dairy-free");
 
-  if (query.cuisineType) {
-    cuisineOptions = cuisineOptions.filter(cuisine => cuisine !== query.cuisineType);
-  }
-
-  if (query.mealType) {
-    mealOptions = mealOptions.filter(meal => meal !== query.mealType);
-  }
+  const cuisineOptions = getCuisineOptions(query.cuisineType);
+  const mealOptions = getMealOptions(query.mealType);
 
   const randomCuisine = getRandom(cuisineOptions);
   const randomMeal = getRandom(mealOptions);
 
-  if(!randomCuisine && !randomMeal) {
-    cuisineOptions = [...Object.values(CuisineType)];
-    mealOptions = [...Object.values(MealType)];
+  if (!randomCuisine && !randomMeal) {
+    resetCuisineAndMealOptions();
     return "";
   }
 
-  if (randomCuisine) {
-    queryParams += queryParams ? `&cuisineType=${randomCuisine}` : `cuisineType=${randomCuisine}`;
-  }
-  if (randomMeal && !isVegetarian) {
-    queryParams += queryParams ? `&q=${randomMeal}` : `q=${randomMeal}`;
-  } else {
-    queryParams += queryParams ? `&q=main course` : `q=main course`;
-  }
-  
-  if(!queryParams) {
-    console.log('Recipes Filtered Too Muc???');
-    cuisineOptions = [...Object.values(CuisineType)];
-    mealOptions = [...Object.values(MealType)];
-  }
+  if (randomCuisine) queryParams = addQueryParam("cuisineType", randomCuisine);
+  const mealParam = randomMeal && !isVegetarian ? randomMeal : "main course";
+  queryParams = addQueryParam("q", mealParam);
 
   return queryParams;
-}
+};
 
-export const resetOptions = (req: Request, res: Response): void => {
-  console.log('Resetting options');
+const getCuisineOptions = (selectedCuisine?: string) =>
+  selectedCuisine ? cuisineOptions.filter(c => c !== selectedCuisine) : [...cuisineOptions];
+
+const getMealOptions = (selectedMeal?: string) =>
+  selectedMeal ? mealOptions.filter(m => m !== selectedMeal) : [...mealOptions];
+
+const resetCuisineAndMealOptions = () => {
   cuisineOptions = [...Object.values(CuisineType)];
   mealOptions = [...Object.values(MealType)];
-
-  res.status(200).json({
-    message: 'Options have been reset',
-    cuisineOptions,
-    mealOptions,
-  });
 };
+
 
 
 export const getRecipeEdamam = async (req: Request, res: Response): Promise<void> => {
