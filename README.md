@@ -50,6 +50,6 @@
    Open your browser and navigate to http://localhost:3000.
 
 
-![App Demo](/assets/1027.gif)
+![App Demo](/assets/demo.gif)
 
 
