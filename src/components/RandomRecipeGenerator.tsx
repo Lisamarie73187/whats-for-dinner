@@ -10,6 +10,7 @@ import ErrorModal from './ErrorModal';
 import Toggle from './Toggle';
 import AnimatedHeader from './AnimatedHeader';
 import AnimatedButton from './AnimatedButton';
+import Recipe from './Recipe';
 
 interface Recipe {
   id: number;
@@ -82,13 +83,7 @@ const RandomRecipeGenerator: React.FC = () => {
             label={TOGGLE_LABEL}
           />
           <HowAboutPrompt />
-          <div
-            className="recipe-container"
-            onClick={() => window.open(recipe.url, "_blank")}
-          >
-            <div className="recipe-title">{recipe.label}</div>
-            <img src={recipe.image} alt={recipe.label} className="recipe-image" />
-          </div>
+          <Recipe label={recipe.label} image={recipe.image} url={recipe.url} />
           <ButtonOptions getRecipe={getRecipe} recipe={recipe} queries={queries} />
         </div>
       )}

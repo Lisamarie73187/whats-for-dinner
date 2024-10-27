@@ -1,42 +1,32 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import useRandomPrompt from '../hooks/useRandomPrompt';
-
-const promptsArray = [
-    'Oh, you again. How about this...',
-    'You’ll eat this and like it...',
-    'Fine, here’s a recipe. Happy now?',
-    'I guess this will do...',
-    'Stop complaining and try this...',
-    'Don’t act like you have better ideas. Here...',
-    'Whatever, just cook this...',
-    'Oh look, food. Surprise!',
-    'I know, I know... You’re welcome.',
-    'Let’s not make this harder. Here...'
-];
+import { promptsArray } from '../prompts';
 
 const HowAboutPrompt = () => {
     const randomPrompt = useRandomPrompt(promptsArray);
 
+    const animations = [
+        { initial: { y: '-100vh' }, animate: { y: 0 }, transition: { type: "spring", stiffness: 100, damping: 15 } },
+        { initial: { y: '100vh' }, animate: { y: 0 }, transition: { type: "spring", stiffness: 100, damping: 15 } },
+        { initial: { opacity: 0, scale: 0.8 }, animate: { opacity: 1, scale: 1 }, transition: { duration: 0.5, ease: "easeOut" } },
+        { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.8, ease: "easeOut" } },
+    ];
+
+    const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+
     return (
-    <div style={styles.container}>
-        <div style={styles.subHeading}>{randomPrompt}</div>
-    </div>
+        <div className="promptContainer">
+            <motion.div
+                className="promptSubheading"
+                initial={randomAnimation.initial}
+                animate={randomAnimation.animate}
+                transition={randomAnimation.transition}
+            >
+                {randomPrompt}
+            </motion.div>
+        </div>
     );
-  }
+};
 
 export default HowAboutPrompt;
-
-const styles = {
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-    },
-    subHeading: {
-        fontSize: '40px',
-        color: '#fffbf6',
-        fontFamily: "Irish Grover",
-        fontWeight: "Regular",
-        fontStyle: "normal",
-        width: '50vw',
-      },
-}

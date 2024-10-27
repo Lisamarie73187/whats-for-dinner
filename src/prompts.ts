@@ -54,3 +54,16 @@ export const errorMessages = [
   "No more recipes left—looks like we eliminated all the good stuff. Maybe ease up on the filters?",
   "Yep, we’re empty. It seems you’ve narrowed it down to... absolutely nothing. Try being a little less selective!"
 ];
+
+export const promptsArray = [
+  'Oh, you again. How about this...',
+  'You’ll eat this and like it...',
+  'Fine, here’s a recipe. Happy now?',
+  'I guess this will do...',
+  'Stop complaining and try this...',
+  'Don’t act like you have better ideas. Here...',
+  'Whatever, just cook this...',
+  'Oh look, food. Surprise!',
+  'I know, I know... You’re welcome.',
+  'Let’s not make this harder. Here...'
+];
