@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import AnimatedButton from './AnimatedButton';
 
 interface WhatsInMyFridgeModalProps {
   isOpen: boolean;
@@ -7,20 +8,19 @@ interface WhatsInMyFridgeModalProps {
 }
 
 const initialIngredients = [
-    "Almonds", "Apples", "Asparagus", "Avocado", "Baking Powder", "Baking Soda", "Bananas",
-    "Basil", "Beef", "Bell Peppers", "Blueberries", "Broccoli", "Brown Sugar", "Butter",
-    "Carrots", "Cashews", "Cauliflower", "Celery", "Cheese", "Chicken", "Chocolate Chips",
-    "Cilantro", "Corn", "Cucumber", "Cumin", "Eggplant", "Eggs", "Garlic", "Ginger",
-    "Grapes", "Green Beans", "Green Onions", "Honey", "Kale", "Lemon", "Lettuce", "Lime",
-    "Mango", "Milk", "Mushrooms", "Oats", "Olive Oil", "Onions", "Oranges", "Oregano",
-    "Parsley", "Pasta", "Peanuts", "Peas", "Peppers", "Pineapple", "Pork", "Potatoes",
-    "Quinoa", "Radishes", "Rice", "Rosemary", "Salmon", "Salt", "Soy Sauce", "Spinach",
-    "Steak", "Strawberries", "Sugar", "Sweet Potatoes", "Thyme", "Tofu", "Tomatoes",
-    "Tortillas", "Turkey", "Vinegar", "Walnuts", "Zucchini"
-  ];
-  
-  
-  const LOCAL_STORAGE_KEY = "selectedIngredients";
+  "Almonds", "Apples", "Asparagus", "Avocado", "Bananas", "Beef", "Bell Peppers",
+  "Blueberries", "Bread Crumbs", "Broccoli", "Cabbage", "Carrots", "Cauliflower", "Celery",
+  "Cheddar Cheese", "Chicken", "Cod", "Corn", "Cucumber", "Eggplant", "Eggs",
+  "Garlic", "Ginger", "Grapes", "Green Beans", "Green Onions", "Kale", "Lamb",
+  "Lemon", "Lemons", "Lettuce", "Limes", "Mahi Mahi", "Mango", "Milk", "Mushrooms",
+  "Oats", "Onions", "Oranges", "Parmesan", "Pasta", "Peanut Butter", "Peanuts",
+  "Peas", "Peppers", "Pineapple", "Pork", "Potatoes", "Quinoa", "Radishes",
+  "Rice", "Romaine", "Salmon", "Spinach", "Squash", "Steak", "Strawberries",
+  "Sweet Potatoes", "Talapia", "Tofu", "Tomatoes", "Tortillas", "Turkey",
+  "Walnuts", "Zucchini"
+];
+
+const LOCAL_STORAGE_KEY = "selectedIngredients";
 
 const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onClose }) => {
   const [ingredientState, setIngredientState] = useState<{ [key: string]: boolean }>(() => {
@@ -33,6 +33,7 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
         }, {} as { [key: string]: boolean });
   });
 
+  // Toggle ingredient selection without saving to localStorage
   const toggleIngredient = (ingredient: string) => {
     setIngredientState((prevState) => ({
       ...prevState,
@@ -40,16 +41,27 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
     }));
   };
 
-  useEffect(() => {
+  // Save selected ingredients to localStorage when "Save" button is clicked
+  const saveIngredients = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ingredientState));
-  }, [ingredientState]);
+    onClose();
+  };
+
+  const resetIngredients = () => {
+    setIngredientState(initialIngredients.reduce((acc, ingredient) => {
+      acc[ingredient] = false;
+      return acc;
+    }, {} as { [key: string]: boolean }));
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    onClose();
+  }
 
   if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal-fridge-content">
-        <button className="modal-close" onClick={onClose}>×</button>
+        <button className="modal-close" onClick={resetIngredients}>×</button>
         <div className="modal-fridge-title">What's in My Fridge?</div>
         <div className="ingredients-fridge-list">
           {initialIngredients.map((ingredient) => (
@@ -63,6 +75,7 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
             </motion.button>
           ))}
         </div>
+        <AnimatedButton text='Save' onClick={saveIngredients} color="#FFA500" width={'100%'}/>
       </div>
     </div>
   );
