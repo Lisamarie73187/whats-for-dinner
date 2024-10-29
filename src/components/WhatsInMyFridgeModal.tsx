@@ -6,19 +6,19 @@ interface WhatsInMyFridgeModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 const initialIngredients = [
-  "Almonds", "Apples", "Asparagus", "Avocado", "Bananas", "Beef", "Bell Peppers",
-  "Blueberries", "Bread Crumbs", "Broccoli", "Cabbage", "Carrots", "Cauliflower", "Celery",
-  "Cheddar Cheese", "Chicken", "Cod", "Corn", "Cucumber", "Eggplant", "Eggs",
-  "Garlic", "Ginger", "Grapes", "Green Beans", "Green Onions", "Kale", "Lamb",
-  "Lemon", "Lemons", "Lettuce", "Limes", "Mahi Mahi", "Mango", "Milk", "Mushrooms",
-  "Oats", "Onions", "Oranges", "Parmesan", "Pasta", "Peanut Butter", "Peanuts",
-  "Peas", "Peppers", "Pineapple", "Pork", "Potatoes", "Quinoa", "Radishes",
-  "Rice", "Romaine", "Salmon", "Spinach", "Squash", "Steak", "Strawberries",
-  "Sweet Potatoes", "Talapia", "Tofu", "Tomatoes", "Tortillas", "Turkey",
-  "Walnuts", "Zucchini"
-];
+    "Almonds", "Apples", "Asparagus", "Avocado", "Bananas", "Beef", "Bell Peppers",
+    "Black Beans", "Black Eyed Peas", "Blueberries", "Bread Crumbs", "Broccoli", "Butter Beans", 
+    "Cabbage", "Cannellini Beans", "Carrots", "Cauliflower", "Celery", "Cheddar Cheese", 
+    "Chicken", "Cod", "Corn", "Cucumber", "Eggplant", "Eggs", "Garbanzo Beans", "Garlic", 
+    "Ginger", "Grapes", "Green Beans", "Green Onions", "Kale", "Lamb", "Lemon", "Lemons", 
+    "Lettuce", "Limes", "Mahi Mahi", "Mango", "Milk", "Mushrooms", "Oats", "Onions", 
+    "Oranges", "Parmesan", "Pasta", "Peanut Butter", "Peanuts", "Peas", "Peppers", 
+    "Pineapple", "Pinto Beans", "Pork", "Potatoes", "Quinoa", "Radishes", "Refried Beans", 
+    "Rice", "Romaine", "Salmon", "Spinach", "Squash", "Steak", "Strawberries", 
+    "Sweet Potatoes", "Tilapia", "Tofu", "Tomatoes", "Tortillas", "Turkey", "Walnuts", 
+    "Zucchini"
+  ];
 
 const LOCAL_STORAGE_KEY = "selectedIngredients";
 
@@ -33,7 +33,6 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
         }, {} as { [key: string]: boolean });
   });
 
-  // Toggle ingredient selection without saving to localStorage
   const toggleIngredient = (ingredient: string) => {
     setIngredientState((prevState) => ({
       ...prevState,
@@ -41,7 +40,6 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
     }));
   };
 
-  // Save selected ingredients to localStorage when "Save" button is clicked
   const saveIngredients = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ingredientState));
     onClose();

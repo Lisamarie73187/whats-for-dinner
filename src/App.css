@@ -24,8 +24,8 @@
 
 .recipe-container {
   /* height: 400px; */
-  margin-top: 50px;
-  padding-top: 25px;
+  margin-top: 80px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
