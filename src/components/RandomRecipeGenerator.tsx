@@ -12,6 +12,7 @@ import RecipeComponent from './Recipe';
 import RecipeFiltering from './RecipeFiltering';
 import RecipeDisplay from './RecipeDisplay';
 import { recipeResponse } from '../../types/types';
+import WhatsInMyFridgeModal from './WhatsInMyFridgeModal';
 
 const HEADER_TEXT = "FOOD CO";
 const SUBHEADER_TEXT = "Your go-to guide on feeding yourself";
@@ -27,6 +28,7 @@ const RandomRecipeGenerator: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [resetAll, setResetAll] = useState<boolean>(false);
   const [isShowRecipe, setIsShowRecipe] = useState<boolean>(false);
+  const [isShowFridgeModal, setIsShowFridgeModal] = useState<boolean>(false);
 
   const [isVegetarian, setIsVegetarian] = useState(() => localStorage.getItem(VEGETARIAN_KEY) === "true");
   const [isGlutenFree, setIsGlutenFree] = useState(() => localStorage.getItem(GLUTEN_FREE_KEY) === "true");
@@ -56,6 +58,7 @@ const RandomRecipeGenerator: React.FC = () => {
     localStorage.setItem(VEGETARIAN_KEY, "false");
     localStorage.setItem(GLUTEN_FREE_KEY, "false");
     localStorage.setItem(DAIRY_FREE_KEY, "false");
+    localStorage.removeItem('selectedIngredients');
   };
 
   const getAIRecipe = async (params?: any) => {
@@ -99,8 +102,10 @@ const RandomRecipeGenerator: React.FC = () => {
           <HowAboutPrompt />
           <RecipeComponent title={recipe.recipe.title} onClick={() => setIsShowRecipe(true)} />
           <ButtonOptionsAI getRecipe={getAIRecipe} recipe={recipe.recipe} />
+          <AnimatedButton text={'what do you have in the fridge?'} onClick={() => setIsShowFridgeModal(true)}/>
           <RecipeFiltering params={recipe.params} />
           <RecipeDisplay recipe={recipe.recipe} isOpen={isShowRecipe} onClose={() => setIsShowRecipe(false)} />
+          <WhatsInMyFridgeModal isOpen={isShowFridgeModal} onClose={() => setIsShowFridgeModal(false)} />
         </div>
       )}
 

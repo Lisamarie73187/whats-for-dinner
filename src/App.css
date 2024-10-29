@@ -48,9 +48,9 @@
 
 .button-container-base {
   display: flex;
-  justify-content: space-around;
-  margin-top: 100px;
+  justify-content: space-around;  
   margin: 0 10vw;
+  padding-bottom: 50px;
 }
 
 .button-container {
@@ -239,6 +239,7 @@ h3 {
   font-size: 15px;
   font-weight: bold;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: #d0d0d0;
   transition: background-color 0.3s ease;
 }
 
@@ -302,15 +303,29 @@ h3 {
 .recipe-display-title {
   font-size: 2rem;
   margin-bottom: 20px;
+  padding-top: 20px;
+  color: #333;
+}
+
+.recipe-center {
+  display: flex;
+}
+
+.recipe-ingredients {
+  text-align: left;
+  max-width: 400px;
+  color: #333;
+}
+
+.recipe-instructions {
+  margin-top: 20px;
+  text-align: left;
   color: #333;
 }
 
 .recipe-cuisine,
 .recipe-main-ingredient,
-.recipe-ingredients,
-.recipe-instructions {
-  margin-bottom: 20px;
-}
+
 
 .recipe-ingredients ul,
 .recipe-instructions ol {
@@ -321,4 +336,61 @@ h3 {
 .recipe-ingredients li,
 .recipe-instructions li {
   margin-bottom: 5px;
+}
+
+.print-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.print-button:hover {
+  background-color: #45a049;
+}
+
+
+.modal-fridge-content {
+  background: #fff;
+  padding: 30px;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  text-align: center;
+}
+
+
+.modal-fridge-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.ingredients-fridge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.toggle-ingredients-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.toggle-ingredients-button.active {
+  background-color: #008080;
+  color: #fff;
+  border-color: #008080;
 }

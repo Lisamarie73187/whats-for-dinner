@@ -9,12 +9,14 @@ export const fetchAIRecipe = async (
     const url = `http://localhost:3003/api/get-AI-recipe`;
 
     const dietaryRestrictions = getDietaryRestrictions();
+    const ingredients = getIngredients();
     try {
 
    const params = new URLSearchParams();
     if (cuisine) params.append('cuisineType', cuisine);
     if (mainIngredient) params.append('mainIngredient', mainIngredient);
     if (dietaryRestrictions) params.append('dietaryRestrictions', dietaryRestrictions);
+    if (ingredients) params.append('ingredients', ingredients);
     if (reset) params.append('reset', reset);
 
     const response = await axios.get(url, { params });
@@ -46,6 +48,18 @@ const getDietaryRestrictions = (): string => {
   }
 
   return dietaryRestrictions.join(', ');
+};
+
+const getIngredients = (): string => {
+  const ingredients = localStorage.getItem('selectedIngredients');
+  return ingredients ? getActiveIngredientsString(JSON.parse(ingredients)) : '';
+}
+
+const getActiveIngredientsString = (ingredientState: { [key: string]: boolean }): string => {
+  return Object.entries(ingredientState)
+    .filter(([_, isActive]) => isActive)
+    .map(([ingredient]) => ingredient)
+    .join(', ');
 };
 
 

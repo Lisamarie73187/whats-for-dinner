@@ -33,7 +33,7 @@ const Toggle: React.FC<ToggleProps> = ({
                 onClick={handleToggle}
                 initial={false}
                 animate={{
-                    backgroundColor: isOn ? '#34c1bf' : '#999',
+                    backgroundColor: isOn ? '#34c1bf' : '#d0d0d0',
                     scale: isOn ? 1.05 : 1,
                 }}
                 whileHover={{ scale: 1.05 }}

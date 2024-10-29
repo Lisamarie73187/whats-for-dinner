@@ -10,20 +10,27 @@ interface RecipeModalProps {
 const RecipeModal: React.FC<RecipeModalProps> = ({ recipe, isOpen, onClose }) => {
   if (!isOpen) return null;
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-display-content">
         <button className="modal-close" onClick={onClose}>×</button>
         <div className="recipe-display-title">{recipe.title}</div>
-        <div className="recipe-ingredients">
-          <h3>Ingredients</h3>
-          <ul>
-            {recipe.ingredients.map((ingredient, index) => (
-              <li key={index}>
-                {ingredient.item} - {ingredient.amount}
-              </li>
-            ))}
-          </ul>
+
+        <div className="recipe-center">
+          <div className="recipe-ingredients">
+            <h3>Ingredients</h3>
+            <ul>
+              {recipe.ingredients.map((ingredient, index) => (
+                <li key={index}>
+                  {ingredient.item} - {ingredient.amount}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="recipe-instructions">
@@ -34,6 +41,8 @@ const RecipeModal: React.FC<RecipeModalProps> = ({ recipe, isOpen, onClose }) =>
             ))}
           </ol>
         </div>
+        
+        <button className="print-button" onClick={handlePrint}>Print Recipe</button>
       </div>
     </div>
   );
