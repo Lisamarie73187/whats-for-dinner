@@ -35,3 +35,31 @@ export enum CuisineType {
     DiaryFree = "dairy-free",
     GlutenFree = "gluten-free",
   }
+
+
+  export interface recipeResponse {
+    params: {
+      cuisineTypeString?: string;
+      mainIngredientString?: string;
+      ingredients?: string;
+      dietaryRestrictions?: string;
+    },
+    recipe: Recipe
+  }
+  export interface Recipe {
+    title: string;
+    cuisine: promptProps;
+    mainIngredient: promptProps;
+    ingredients: Ingredient[];
+    instructions: string[];
+  }
+  
+  export interface Ingredient {
+    item: string;
+    amount: string;
+  }
+  
+  export interface promptProps {
+    type: string, 
+    prompt: string
+  }

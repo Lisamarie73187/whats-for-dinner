@@ -23,9 +23,9 @@
 }
 
 .recipe-container {
-  height: 400px;
-  margin-top: 10px;
-  padding: 20px;
+  /* height: 400px; */
+  margin-top: 50px;
+  padding-top: 25px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,9 +34,9 @@
 }
 
 .recipe-title {
-  font-size: 1.8rem;
+  font-size: 4rem;
   color: #fffbf6;
-  margin-bottom: 20px;
+  padding-bottom: 50px;
 }
 
 .recipe-image {
@@ -50,10 +50,11 @@
   display: flex;
   justify-content: space-around;
   margin-top: 100px;
+  margin: 0 10vw;
 }
 
 .button-container {
-  margin: 0 15vw;
+  margin: 0 40vw;
 }
 
 .button-container-two-prompts {
@@ -197,7 +198,15 @@ h3 {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  margin: 0 35vw;
+  margin: 0 20vw;
+
+  @media screen and (min-width: 750px) {
+    margin: 0 20vw;
+  }
+
+  @media screen and (min-width: 1200px) {
+    margin: 0 30vw;
+  }
 }
 
 .toggle-wrapper {
@@ -234,7 +243,7 @@ h3 {
 }
 
 .toggle-button-text {
-  padding: 0 10px;
+  padding: 0 50px;
 }
 
 .footer {
@@ -247,4 +256,69 @@ h3 {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #fff;
+}
+
+.resetButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  background-color: #f77d2c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.resetButton:hover {
+  background-color: #d32f2f;
+}
+
+.recipe-filtering-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.recipe-filtering-item {
+  margin-right: 10px;
+}
+
+.modal-display-content {
+  background: #f8f8f8;
+  padding: 40px;
+  width: 80%;
+  max-width: 900px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.recipe-display-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.recipe-cuisine,
+.recipe-main-ingredient,
+.recipe-ingredients,
+.recipe-instructions {
+  margin-bottom: 20px;
+}
+
+.recipe-ingredients ul,
+.recipe-instructions ol {
+  padding: 0 100px;
+  text-align: left;
+}
+
+.recipe-ingredients li,
+.recipe-instructions li {
+  margin-bottom: 5px;
 }
