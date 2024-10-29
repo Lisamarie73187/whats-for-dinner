@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import AnimatedButton from './AnimatedButton';
 
@@ -6,19 +6,20 @@ interface WhatsInMyFridgeModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
 const initialIngredients = [
-    "Almonds", "Apples", "Asparagus", "Avocado", "Bananas", "Beef", "Bell Peppers",
-    "Black Beans", "Black Eyed Peas", "Blueberries", "Bread Crumbs", "Broccoli", "Butter Beans", 
-    "Cabbage", "Cannellini Beans", "Carrots", "Cauliflower", "Celery", "Cheddar Cheese", 
-    "Chicken", "Cod", "Corn", "Cucumber", "Eggplant", "Eggs", "Garbanzo Beans", "Garlic", 
-    "Ginger", "Grapes", "Green Beans", "Green Onions", "Kale", "Lamb", "Lemon", "Lemons", 
-    "Lettuce", "Limes", "Mahi Mahi", "Mango", "Milk", "Mushrooms", "Oats", "Onions", 
-    "Oranges", "Parmesan", "Pasta", "Peanut Butter", "Peanuts", "Peas", "Peppers", 
-    "Pineapple", "Pinto Beans", "Pork", "Potatoes", "Quinoa", "Radishes", "Refried Beans", 
-    "Rice", "Romaine", "Salmon", "Spinach", "Squash", "Steak", "Strawberries", 
-    "Sweet Potatoes", "Tilapia", "Tofu", "Tomatoes", "Tortillas", "Turkey", "Walnuts", 
-    "Zucchini"
-  ];
+  "Almonds", "Apples", "Asparagus", "Avocado", "Bananas", "Beef", "Bell Peppers",
+  "Black Beans", "Black Eyed Peas", "Blueberries", "Bread Crumbs", "Broccoli", "Butter Beans", 
+  "Cabbage", "Cannellini Beans", "Carrots", "Cauliflower", "Celery", "Cheddar Cheese", 
+  "Chicken", "Cod", "Corn", "Cucumber", "Eggplant", "Eggs", "Garbanzo Beans", "Garlic", 
+  "Ginger", "Grapes", "Green Beans", "Green Onions", "Kale", "Lamb", "Lemon", "Lemons", 
+  "Lettuce", "Limes", "Mahi Mahi", "Mango", "Milk", "Mushrooms", "Oats", "Onions", 
+  "Oranges", "Parmesan", "Pasta", "Peanut Butter", "Peanuts", "Peas", "Peppers", 
+  "Pineapple", "Pinto Beans", "Pork", "Potatoes", "Quinoa", "Radishes", "Refried Beans", 
+  "Rice", "Romaine", "Salmon", "Spinach", "Squash", "Steak", "Strawberries", 
+  "Sweet Potatoes", "Tilapia", "Tofu", "Tomatoes", "Tortillas", "Turkey", "Walnuts", 
+  "Zucchini"
+];
 
 const LOCAL_STORAGE_KEY = "selectedIngredients";
 
@@ -73,7 +74,7 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
             </motion.button>
           ))}
         </div>
-        <AnimatedButton text='Save' onClick={saveIngredients} color="#FFA500" width={'100%'}/>
+        {/* <AnimatedButton text='Save' onClick={saveIngredients} color="#FFA500" width={'100%'}/> */}
       </div>
     </div>
   );

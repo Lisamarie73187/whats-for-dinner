@@ -13,6 +13,7 @@ import RecipeFiltering from './RecipeFiltering';
 import RecipeDisplay from './RecipeDisplay';
 import { recipeResponse } from '../../types/types';
 import WhatsInMyFridgeModal from './WhatsInMyFridgeModal';
+import DietaryRestrictionsModal from './DietaryRestrictionsModal';
 
 const HEADER_TEXT = "FOOD CO";
 const SUBHEADER_TEXT = "Your go-to guide on feeding yourself";
@@ -29,31 +30,15 @@ const RandomRecipeGenerator: React.FC = () => {
   const [resetAll, setResetAll] = useState<boolean>(false);
   const [isShowRecipe, setIsShowRecipe] = useState<boolean>(false);
   const [isShowFridgeModal, setIsShowFridgeModal] = useState<boolean>(false);
+  const [isShowDietaryRestrictionsModal, setIsShowDietaryRestrictionsModal] = useState<boolean>(false);
 
-  const [isVegetarian, setIsVegetarian] = useState(() => localStorage.getItem(VEGETARIAN_KEY) === "true");
-  const [isGlutenFree, setIsGlutenFree] = useState(() => localStorage.getItem(GLUTEN_FREE_KEY) === "true");
-  const [isDairyFree, setIsDairyFree] = useState(() => localStorage.getItem(DAIRY_FREE_KEY) === "true");
+
 
   const getRecipeButtonPrompt = useRandomGetRecipeButtonPrompts();
-
-  useEffect(() => {
-    localStorage.setItem(VEGETARIAN_KEY, JSON.stringify(isVegetarian));
-  }, [isVegetarian]);
-
-  useEffect(() => {
-    localStorage.setItem(GLUTEN_FREE_KEY, JSON.stringify(isGlutenFree));
-  }, [isGlutenFree]);
-
-  useEffect(() => {
-    localStorage.setItem(DAIRY_FREE_KEY, JSON.stringify(isDairyFree));
-  }, [isDairyFree]);
 
   const reset = () => {
     setRecipe(null);
     setError(null);
-    setIsVegetarian(false);
-    setIsGlutenFree(false);
-    setIsDairyFree(false);
     setResetAll(true);
     localStorage.setItem(VEGETARIAN_KEY, "false");
     localStorage.setItem(GLUTEN_FREE_KEY, "false");
@@ -94,21 +79,19 @@ const RandomRecipeGenerator: React.FC = () => {
       {recipe && !loading && (
         <div>
           <button className="resetButton" onClick={reset}>Reset</button>
-          <div className="toggleContainer">
-            <Toggle initialState={isVegetarian} onToggle={() => setIsVegetarian(!isVegetarian)} label="Vegetarian" />
-            <Toggle initialState={isGlutenFree} onToggle={() => setIsGlutenFree(!isGlutenFree)} label="Gluten-Free" />
-            <Toggle initialState={isDairyFree} onToggle={() => setIsDairyFree(!isDairyFree)} label="Dairy-Free" />
-          </div>
           <HowAboutPrompt />
           <RecipeComponent title={recipe.recipe.title} onClick={() => setIsShowRecipe(true)} />
           <ButtonOptionsAI getRecipe={getAIRecipe} recipe={recipe.recipe} />
-          <AnimatedButton text={'what do you have in the fridge?'} onClick={() => setIsShowFridgeModal(true)}/>
-          <RecipeFiltering params={recipe.params} />
+          <div className='filterButtons'>
+            <AnimatedButton text={'What\'s In Your Fridge?'} onClick={() => setIsShowFridgeModal(true)}/>
+            <AnimatedButton text={'Dietary Restrictions?'} onClick={() => setIsShowDietaryRestrictionsModal(true)}/>
+          </div>
           <RecipeDisplay recipe={recipe.recipe} isOpen={isShowRecipe} onClose={() => setIsShowRecipe(false)} />
-          <WhatsInMyFridgeModal isOpen={isShowFridgeModal} onClose={() => setIsShowFridgeModal(false)} />
+           <WhatsInMyFridgeModal isOpen={isShowFridgeModal} onClose={() => setIsShowFridgeModal(false)} />
+            <DietaryRestrictionsModal isOpen={isShowDietaryRestrictionsModal} onClose={() => setIsShowDietaryRestrictionsModal(false)} />
+          <RecipeFiltering params={recipe.params} />
         </div>
       )}
-
       <div className="footer">Lisa Marie Herzberg ©2024</div>
     </div>
   );
