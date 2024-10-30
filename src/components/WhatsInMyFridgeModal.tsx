@@ -74,7 +74,7 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
             </motion.button>
           ))}
         </div>
-        {/* <AnimatedButton text='Save' onClick={saveIngredients} color="#FFA500" width={'100%'}/> */}
+        <AnimatedButton text='Save' onClick={saveIngredients} color="#FFA500" width={'100%'}/>
       </div>
     </div>
   );

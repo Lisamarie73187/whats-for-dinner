@@ -33,7 +33,7 @@ Please generate a recipe with the following structure:
     mainIngredient?: string,
     mainIngredientString?: string
   ): string => `
-    Create a recipe that uses the following ingredients: ${ingredients || 'any available ingredients'}.
+    Create a recipe that uses the following ingredients but it doesn't have to use all the ingredients: ${ingredients || 'any available ingredients'}.
     no not include: ${cuisineTypeString || 'none'}
     do not include anything with: ${mainIngredient || 'none'}
     Dietary restrictions: ${mainIngredientString || 'none'}

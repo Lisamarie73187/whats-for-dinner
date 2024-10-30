@@ -46,6 +46,11 @@ const RandomRecipeGenerator: React.FC = () => {
     localStorage.removeItem('selectedIngredients');
   };
 
+  const closeFridgeModalAndGetNewRecipe = () => {
+    setIsShowFridgeModal(false);
+    getAIRecipe();
+  }
+
   const getAIRecipe = async (params?: any) => {
     setLoading(true);
     setError(null);
@@ -61,6 +66,7 @@ const RandomRecipeGenerator: React.FC = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="container">
@@ -87,7 +93,7 @@ const RandomRecipeGenerator: React.FC = () => {
             <AnimatedButton text={'Dietary Restrictions?'} onClick={() => setIsShowDietaryRestrictionsModal(true)}/>
           </div>
           <RecipeDisplay recipe={recipe.recipe} isOpen={isShowRecipe} onClose={() => setIsShowRecipe(false)} />
-           <WhatsInMyFridgeModal isOpen={isShowFridgeModal} onClose={() => setIsShowFridgeModal(false)} />
+           <WhatsInMyFridgeModal isOpen={isShowFridgeModal} onClose={() => closeFridgeModalAndGetNewRecipe()} />
             <DietaryRestrictionsModal isOpen={isShowDietaryRestrictionsModal} onClose={() => setIsShowDietaryRestrictionsModal(false)} />
           <RecipeFiltering params={recipe.params} />
         </div>

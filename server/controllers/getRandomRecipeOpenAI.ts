@@ -44,6 +44,7 @@ export const getRandomRecipeOpenAI = async (req: Request, res: Response): Promis
           { role: 'user', content: prompt }
         ],
         max_tokens: 500,
+        temperature: 0.8,
       },
       {
         headers: {
