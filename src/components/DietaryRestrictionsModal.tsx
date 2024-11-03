@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Toggle from './Toggle';
 import AnimatedButton from './AnimatedButton';
 
@@ -17,46 +17,47 @@ const DietaryRestrictionsModal: React.FC<DietaryRestrictionsModalProps> = ({ isO
 
     useEffect(() => {
         localStorage.setItem(VEGETARIAN_KEY, JSON.stringify(isVegetarian));
-      }, [isVegetarian]);
-    
-      useEffect(() => {
-        localStorage.setItem(GLUTEN_FREE_KEY, JSON.stringify(isGlutenFree));
-      }, [isGlutenFree]);
-    
-      useEffect(() => {
-        localStorage.setItem(DAIRY_FREE_KEY, JSON.stringify(isDairyFree));
-      }, [isDairyFree]);
+    }, [isVegetarian]);
 
-      const saveRestrictions = () => {
+    useEffect(() => {
+        localStorage.setItem(GLUTEN_FREE_KEY, JSON.stringify(isGlutenFree));
+    }, [isGlutenFree]);
+
+    useEffect(() => {
+        localStorage.setItem(DAIRY_FREE_KEY, JSON.stringify(isDairyFree));
+    }, [isDairyFree]);
+
+    const saveRestrictions = useCallback(() => {
         onClose();
-      };
-    
-      const resetRestrictions = () => {
+    }, [onClose]);
+
+    const resetRestrictions = useCallback(() => {
         setIsVegetarian(false);
         setIsGlutenFree(false);
         setIsDairyFree(false);
-    
+
         localStorage.removeItem(VEGETARIAN_KEY);
         localStorage.removeItem(GLUTEN_FREE_KEY);
         localStorage.removeItem(DAIRY_FREE_KEY);
-    
-        onClose(); 
-      };
-  if (!isOpen) return null;
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-dietary-content">
-      <button className="modal-close" onClick={resetRestrictions}>×</button>
-      <div className="toggleContainer">
-            <Toggle initialState={isVegetarian} onToggle={() => setIsVegetarian(!isVegetarian)} label="Vegetarian" />
-            <Toggle initialState={isGlutenFree} onToggle={() => setIsGlutenFree(!isGlutenFree)} label="Gluten-Free" />
-            <Toggle initialState={isDairyFree} onToggle={() => setIsDairyFree(!isDairyFree)} label="Dairy-Free" />
-          </div>
-          <AnimatedButton text='Save' onClick={saveRestrictions} color="#FFA500" width={'100%'}/>
-      </div>
-    </div>
-  );
+        onClose(); 
+    }, [onClose]);
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal-dietary-content">
+                <button className="modal-close" onClick={resetRestrictions}>×</button>
+                <div className="toggleContainer">
+                    <Toggle initialState={isVegetarian} onToggle={() => setIsVegetarian(!isVegetarian)} label="Vegetarian" />
+                    <Toggle initialState={isGlutenFree} onToggle={() => setIsGlutenFree(!isGlutenFree)} label="Gluten-Free" />
+                    <Toggle initialState={isDairyFree} onToggle={() => setIsDairyFree(!isDairyFree)} label="Dairy-Free" />
+                </div>
+                <AnimatedButton text='Save' onClick={saveRestrictions} color="#FFA500" width={'100%'}/>
+            </div>
+        </div>
+    );
 };
 
 export default DietaryRestrictionsModal;

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import ButtonOptionsAI from './ButtonOptionsAI';
 import LoadingComponent from './LoadingCompontent';
 import HowAboutPrompt from './HowAboutPrompt';
 import { fetchAIRecipe } from '../api/fetchAIRecipes';
 import useRandomGetRecipeButtonPrompts from '../hooks/useRandomGetRecipePrompt';
 import ErrorModal from './ErrorModal';
-import Toggle from './Toggle';
 import AnimatedHeader from './AnimatedHeader';
 import AnimatedButton from './AnimatedButton';
 import RecipeComponent from './Recipe';
@@ -32,26 +31,9 @@ const RandomRecipeGenerator: React.FC = () => {
   const [isShowFridgeModal, setIsShowFridgeModal] = useState<boolean>(false);
   const [isShowDietaryRestrictionsModal, setIsShowDietaryRestrictionsModal] = useState<boolean>(false);
 
-
-
   const getRecipeButtonPrompt = useRandomGetRecipeButtonPrompts();
 
-  const reset = () => {
-    setRecipe(null);
-    setError(null);
-    setResetAll(true);
-    localStorage.setItem(VEGETARIAN_KEY, "false");
-    localStorage.setItem(GLUTEN_FREE_KEY, "false");
-    localStorage.setItem(DAIRY_FREE_KEY, "false");
-    localStorage.removeItem('selectedIngredients');
-  };
-
-  const closeFridgeModalAndGetNewRecipe = () => {
-    setIsShowFridgeModal(false);
-    getAIRecipe();
-  }
-
-  const getAIRecipe = async (params?: any) => {
+  const getAIRecipe = useCallback(async (params?: any) => {
     setLoading(true);
     setError(null);
 
@@ -65,8 +47,22 @@ const RandomRecipeGenerator: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
-  
+  }, [resetAll]);
+
+  const reset = useCallback(() => {
+    setRecipe(null);
+    setError(null);
+    setResetAll(true);
+    localStorage.setItem(VEGETARIAN_KEY, "false");
+    localStorage.setItem(GLUTEN_FREE_KEY, "false");
+    localStorage.setItem(DAIRY_FREE_KEY, "false");
+    localStorage.removeItem('selectedIngredients');
+  }, []);
+
+  const closeFridgeModalAndGetNewRecipe = useCallback(() => {
+    setIsShowFridgeModal(false);
+    getAIRecipe();
+  }, [getAIRecipe]);
 
   return (
     <div className="container">
@@ -93,8 +89,8 @@ const RandomRecipeGenerator: React.FC = () => {
             <AnimatedButton text={'Dietary Restrictions?'} onClick={() => setIsShowDietaryRestrictionsModal(true)}/>
           </div>
           <RecipeDisplay recipe={recipe.recipe} isOpen={isShowRecipe} onClose={() => setIsShowRecipe(false)} />
-           <WhatsInMyFridgeModal isOpen={isShowFridgeModal} onClose={() => closeFridgeModalAndGetNewRecipe()} />
-            <DietaryRestrictionsModal isOpen={isShowDietaryRestrictionsModal} onClose={() => setIsShowDietaryRestrictionsModal(false)} />
+          <WhatsInMyFridgeModal isOpen={isShowFridgeModal} onClose={closeFridgeModalAndGetNewRecipe} />
+          <DietaryRestrictionsModal isOpen={isShowDietaryRestrictionsModal} onClose={() => setIsShowDietaryRestrictionsModal(false)} />
           <RecipeFiltering params={recipe.params} />
         </div>
       )}

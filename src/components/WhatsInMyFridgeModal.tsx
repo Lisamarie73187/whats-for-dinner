@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import AnimatedButton from './AnimatedButton';
 
@@ -34,26 +34,28 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
         }, {} as { [key: string]: boolean });
   });
 
-  const toggleIngredient = (ingredient: string) => {
+
+  const toggleIngredient = useCallback((ingredient: string) => {
     setIngredientState((prevState) => ({
       ...prevState,
       [ingredient]: !prevState[ingredient],
     }));
-  };
+  }, []);
 
-  const saveIngredients = () => {
+  const saveIngredients = useCallback(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ingredientState));
     onClose();
-  };
+  }, [ingredientState, onClose]);
 
-  const resetIngredients = () => {
+  const resetIngredients = useCallback(() => {
     setIngredientState(initialIngredients.reduce((acc, ingredient) => {
       acc[ingredient] = false;
       return acc;
     }, {} as { [key: string]: boolean }));
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     onClose();
-  }
+  }, [onClose]);
+
 
   if (!isOpen) return null;
 

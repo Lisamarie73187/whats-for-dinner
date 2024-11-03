@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface ToggleProps {
@@ -18,13 +18,13 @@ const Toggle: React.FC<ToggleProps> = ({
 }) => {
     const [isOn, setIsOn] = useState(initialState);
 
-    const handleToggle = () => {
+    const handleToggle = useCallback(() => {
         setIsOn((prevState) => {
             const newState = !prevState;
             if (onToggle) onToggle(newState);
             return newState;
         });
-    };
+    }, [onToggle]);
 
     return (
         <div className="toggle-wrapper">
