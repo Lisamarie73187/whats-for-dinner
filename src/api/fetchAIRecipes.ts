@@ -2,8 +2,6 @@ import axios from 'axios';
 
 export const fetchAIRecipe = async (
   {
-    cuisine, 
-    mainIngredient,
     reset
   }) => {
     const url = `http://localhost:3003/api/get-AI-recipe`;
@@ -13,8 +11,6 @@ export const fetchAIRecipe = async (
     try {
 
    const params = new URLSearchParams();
-    if (cuisine) params.append('cuisineType', cuisine);
-    if (mainIngredient) params.append('mainIngredient', mainIngredient);
     if (dietaryRestrictions) params.append('dietaryRestrictions', dietaryRestrictions);
     if (ingredients) params.append('ingredients', ingredients);
     if (reset) params.append('reset', reset);
