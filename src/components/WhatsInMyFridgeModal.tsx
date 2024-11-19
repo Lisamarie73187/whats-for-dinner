@@ -5,6 +5,7 @@ import AnimatedButton from './AnimatedButton';
 interface WhatsInMyFridgeModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSave: () => void;
 }
 
 const initialIngredients = [
@@ -23,7 +24,7 @@ const initialIngredients = [
 
 const LOCAL_STORAGE_KEY = "selectedIngredients";
 
-const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onClose }) => {
+const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onClose, onSave }) => {
   const [ingredientState, setIngredientState] = useState<{ [key: string]: boolean }>(() => {
     const storedIngredients = localStorage.getItem(LOCAL_STORAGE_KEY);
     return storedIngredients
@@ -44,25 +45,15 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({ isOpen, onC
 
   const saveIngredients = useCallback(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ingredientState));
-    onClose();
-  }, [ingredientState, onClose]);
-
-  const resetIngredients = useCallback(() => {
-    setIngredientState(initialIngredients.reduce((acc, ingredient) => {
-      acc[ingredient] = false;
-      return acc;
-    }, {} as { [key: string]: boolean }));
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-    onClose();
-  }, [onClose]);
-
+    onSave();
+  }, [ingredientState, onSave]);
 
   if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal-fridge-content">
-        <button className="modal-close" onClick={resetIngredients}>×</button>
+        <button className="modal-close" onClick={onClose}>×</button>
         <div className="modal-fridge-title">What's in My Fridge?</div>
         <div className="ingredients-fridge-list">
           {initialIngredients.map((ingredient) => (

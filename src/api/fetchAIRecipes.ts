@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-export const fetchAIRecipe = async (
-  {
-    reset
-  }) => {
+export const fetchAIRecipe = async () => {
     const url = `http://localhost:3003/api/get-AI-recipe`;
 
     const dietaryRestrictions = getDietaryRestrictions();
@@ -13,7 +10,6 @@ export const fetchAIRecipe = async (
    const params = new URLSearchParams();
     if (dietaryRestrictions) params.append('dietaryRestrictions', dietaryRestrictions);
     if (ingredients) params.append('ingredients', ingredients);
-    if (reset) params.append('reset', reset);
 
     const response = await axios.get(url, { params });
 
@@ -31,19 +27,16 @@ export const fetchAIRecipe = async (
 };
 
 const getDietaryRestrictions = (): string => {
-  const dietaryRestrictions: string[] = [];
+  const dietaryRestrictions = localStorage.getItem("dietaryPreferences") 
 
-  if (localStorage.getItem('isVegetarian') === 'true') {
-    dietaryRestrictions.push('vegetarian');
-  }
-  if (localStorage.getItem('isGlutenFree') === 'true') {
-    dietaryRestrictions.push('gluten-free');
-  }
-  if (localStorage.getItem('isDairyFree') === 'true') {
-    dietaryRestrictions.push('dairy-free');
-  }
+  return dietaryRestrictions ? getActiveDietaryRestrictions(JSON.parse(dietaryRestrictions)) : '';
+};
 
-  return dietaryRestrictions.join(', ');
+const getActiveDietaryRestrictions = (preferences: Record<string, boolean>): string => {
+  return Object.entries(preferences)
+    .filter(([_, isActive]) => isActive)
+    .map(([key]) => key.replace(/^is/, '').replace(/([A-Z])/g, ' $1').trim())
+    .join(', ');
 };
 
 const getIngredients = (): string => {

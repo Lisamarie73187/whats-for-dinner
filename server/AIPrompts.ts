@@ -2,7 +2,6 @@ export const randomRecipePrompt = `
 Generate a random, unique dinner recipe with easy-to-find 
 ingredients and simple instructions. 
 Make it something creative and fun!
-can you return the main ingredient and the cuisine too.
 
 Please generate a recipe with the following structure:
 
@@ -29,17 +28,13 @@ Please generate a recipe with the following structure:
 
   export const createRecipePrompt = (
     ingredients?: string,
-    cuisineTypeString?: string,
-    mainIngredient?: string,
-    mainIngredientString?: string
+    dietaryRestrictions?: string
   ): string => `
-    Create a recipe that uses the following ingredients but it doesn't have to use all the ingredients: ${ingredients || 'any available ingredients'}.
-    no not include: ${cuisineTypeString || 'none'}
-    do not include anything with: ${mainIngredient || 'none'}
-    Dietary restrictions: ${mainIngredientString || 'none'}
-    Generate a random, unique dinner recipe with easy-to-find 
+    Create a recipe that uses some of the following ingredients but it doesn't have to use all the ingredients: ${ingredients || 'any available ingredients'}.
+    Dietary restrictions: ${dietaryRestrictions || 'none'}
+    Generate a random, unique dinner recipe with  
     ingredients and simple instructions. 
-    can you return the main ingredient and the cuisine too.
+    
     Please generate a recipe with the following structure:
     {
       "title": "Recipe Title",

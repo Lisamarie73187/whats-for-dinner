@@ -7,33 +7,20 @@ dotenv.config();
 
 const openAIKey = process.env.OPENAI_API_KEY;
 
-const cuisineTypeArr: string[] = [];
-const mainIngredientArr: string[] = [];
 
 export const getRandomRecipeOpenAI = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { cuisineType, mainIngredient, ingredients, dietaryRestrictions, reset } = req.query as {
-      cuisineType?: string;
-      mainIngredient?: string;
+    const { ingredients, dietaryRestrictions} = req.query as {
       ingredients?: string;
       dietaryRestrictions?: string;
-      reset?: string;
     };
 
-    if (reset) {
-      cuisineTypeArr.length = 0;
-      mainIngredientArr.length = 0;
-    }
-
-    if (cuisineType) cuisineTypeArr.push(cuisineType);
-    if (mainIngredient) mainIngredientArr.push(mainIngredient);
-
-    const cuisineTypeString = cuisineTypeArr.join(', ');
-    const mainIngredientString = mainIngredientArr.join(', ');
-    const isRandomRecipe = !cuisineType && !ingredients && !dietaryRestrictions;
+    console.log('ingredients:', ingredients);
+    console.log('dietaryRestrictions:', dietaryRestrictions);
+    const isRandomRecipe =!ingredients && !dietaryRestrictions;
     const prompt = isRandomRecipe
       ? randomRecipePrompt
-      : createRecipePrompt(ingredients, cuisineTypeString, mainIngredient, mainIngredientString);
+      : createRecipePrompt(ingredients, dietaryRestrictions);
 
     const response: AxiosResponse = await axios.post(
       'https://api.openai.com/v1/chat/completions',
@@ -61,7 +48,7 @@ export const getRandomRecipeOpenAI = async (req: Request, res: Response): Promis
 
     const recipeResponse = {
       recipe: JSON.parse(response.data.choices[0]?.message?.content),
-      params: { cuisineTypeString, mainIngredientString, ingredients, dietaryRestrictions }
+      params: { ingredients, dietaryRestrictions }
     };
 
     if (!recipeResponse.recipe) {
@@ -71,7 +58,7 @@ export const getRandomRecipeOpenAI = async (req: Request, res: Response): Promis
 
     res.json({
       recipe: recipeResponse,
-      query: isRandomRecipe ? 'Randomly generated recipe' : { cuisineType, ingredients, dietaryRestrictions }
+      query: isRandomRecipe ? 'Randomly generated recipe' : { ingredients, dietaryRestrictions }
     });
   } catch (error) {
     console.error('Error generating recipe:', error);
