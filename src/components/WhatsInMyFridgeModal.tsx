@@ -8,7 +8,6 @@ interface WhatsInMyFridgeModalProps {
 	onSave: () => void;
 }
 
-
 const LOCAL_STORAGE_KEY = 'selectedIngredients';
 
 const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({
@@ -76,7 +75,6 @@ const WhatsInMyFridgeModal: React.FC<WhatsInMyFridgeModalProps> = ({
 };
 
 export default WhatsInMyFridgeModal;
-
 
 const initialIngredients = [
 	'Almonds',

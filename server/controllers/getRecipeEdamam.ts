@@ -105,12 +105,10 @@ export const getRecipeEdamam = async (
 		const response: AxiosResponse<EdamamResponse> = await axios.get(url);
 
 		if (response.status !== 200) {
-			res
-				.status(response.status)
-				.json({
-					message: 'Failed to fetch recipes',
-					error: response.statusText,
-				});
+			res.status(response.status).json({
+				message: 'Failed to fetch recipes',
+				error: response.statusText,
+			});
 			return;
 		}
 
