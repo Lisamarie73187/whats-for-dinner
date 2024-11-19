@@ -24,12 +24,12 @@ Please generate a recipe with the following structure:
     "..."
   ]
 }
-`
+`;
 
-  export const createRecipePrompt = (
-    ingredients?: string,
-    dietaryRestrictions?: string
-  ): string => `
+export const createRecipePrompt = (
+	ingredients?: string,
+	dietaryRestrictions?: string
+): string => `
     Create a recipe that uses some of the following ingredients but it doesn't have to use all the ingredients: ${ingredients || 'any available ingredients'}.
     Dietary restrictions: ${dietaryRestrictions || 'none'}
     Generate a random, unique dinner recipe with  
@@ -56,4 +56,3 @@ Please generate a recipe with the following structure:
       ]
     }
   `;
-  
