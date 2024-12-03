@@ -6,9 +6,7 @@
 
 - **Random Recipe Generator**: Instantly get recipe inspiration with a random suggestion from the OPENAI API.
 - **Customizable Filters**: Tailor results based on:
-  - **Cuisine**: Filter by a variety of cuisines.
   - **Diet Preferences**: Choose from dietary filters like vegetarian, diary-free, and gluten-free.
-  - **Exclude Ingredients**: Omit recipes with specific ingredients to accommodate allergies or preferences.
   - **Include Ingredients**: features a "What's In My Fridge" list of ingredients to search with.
 - **Recipe Details**: Displays each recipe’s title and direct link to full instructions.
 - **Smooth Animations**: Framer Motion is used for seamless transitions and animations, enhancing the user experience.
